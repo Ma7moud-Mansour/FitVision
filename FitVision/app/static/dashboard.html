@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FitVision Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400&family=Geist:wght@600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script>
+tailwind.config={darkMode:"class",theme:{extend:{
+colors:{"primary-fixed":"#d8e2ff","outline":"#8b90a0","surface-container":"#201f1f","background":"#131313","on-background":"#e5e2e1","secondary":"#d7ffc5","primary-fixed-dim":"#adc6ff","surface-dim":"#131313","surface-tint":"#adc6ff","primary":"#adc6ff","surface-container-low":"#1c1b1b","surface-container-high":"#2a2a2a","on-primary":"#002e69","on-surface":"#e5e2e1","surface":"#131313","outline-variant":"#414755","error":"#ffb4ab","surface-container-highest":"#353534","primary-container":"#4b8eff","surface-bright":"#393939","surface-container-lowest":"#0e0e0e","on-surface-variant":"#c1c6d7","secondary-container":"#2ff801","error-container":"#93000a","on-error-container":"#ffdad6"},
+borderRadius:{DEFAULT:"0.125rem",lg:"0.25rem",xl:"0.5rem",full:"0.75rem"},
+spacing:{xs:"4px",gutter:"20px","container-max":"1280px",base:"4px",sm:"8px",xl:"48px",md:"16px",lg:"24px"},
+fontFamily:{"label-caps":["Geist"],"mono-metrics":["Geist"],"headline-md":["Geist"],"body-md":["Inter"],"headline-lg":["Geist"],"display-xl":["Geist"]},
+fontSize:{"label-caps":["12px",{lineHeight:"16px",letterSpacing:"0.1em",fontWeight:"600"}],"mono-metrics":["20px",{lineHeight:"24px",letterSpacing:"0.05em",fontWeight:"700"}],"headline-md":["24px",{lineHeight:"32px",fontWeight:"600"}],"body-md":["16px",{lineHeight:"24px",fontWeight:"400"}],"headline-lg":["32px",{lineHeight:"40px",fontWeight:"600"}],"display-xl":["48px",{lineHeight:"56px",letterSpacing:"-0.02em",fontWeight:"700"}]}
+}}}
+</script>
+<style>.material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;}</style>
+</head>
+<body class="bg-background text-on-background min-h-screen font-body-md overflow-x-hidden flex">
+<!-- SideNav -->
+<nav class="h-screen w-64 fixed left-0 top-0 hidden lg:flex flex-col bg-surface-container-lowest/90 backdrop-blur-2xl border-r border-white/5 py-lg px-md gap-sm z-50">
+  <div class="flex items-center gap-md mb-xl px-sm">
+    <div class="w-12 h-12 rounded-full border border-white/10 bg-surface-container flex items-center justify-center shadow-[0_0_15px_rgba(173,198,255,0.15)]">
+      <span class="material-symbols-outlined text-primary text-[28px]" style="font-variation-settings:'FILL' 1;">fitness_center</span>
+    </div>
+    <div>
+      <h1 class="font-headline-md text-headline-md text-primary tracking-tight">FitVision</h1>
+      <p class="font-label-caps text-label-caps text-outline" id="nav-username">Athlete</p>
+    </div>
+  </div>
+  <div class="flex-1 flex flex-col gap-xs font-label-caps text-label-caps">
+    <a class="flex items-center gap-sm px-md py-sm rounded-lg bg-primary-container/20 text-primary border-r-2 border-primary cursor-pointer transition-all" href="/dashboard">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">dashboard</span> Overview
+    </a>
+    <a class="flex items-center gap-sm px-md py-sm rounded-lg text-outline hover:text-on-surface hover:bg-surface-container-high transition-colors cursor-pointer" href="/upload">
+      <span class="material-symbols-outlined">cloud_upload</span> Upload Video
+    </a>
+    <a class="flex items-center gap-sm px-md py-sm rounded-lg text-outline hover:text-on-surface hover:bg-surface-container-high transition-colors cursor-pointer" href="#">
+      <span class="material-symbols-outlined">psychology</span> AI Coach
+    </a>
+    <a class="flex items-center gap-sm px-md py-sm rounded-lg text-outline hover:text-on-surface hover:bg-surface-container-high transition-colors cursor-pointer" href="#">
+      <span class="material-symbols-outlined">settings</span> Settings
+    </a>
+  </div>
+  <div class="flex flex-col gap-xs font-label-caps text-label-caps pt-sm border-t border-white/5">
+    <a onclick="API.logout()" class="flex items-center gap-sm px-md py-sm rounded-lg text-outline hover:text-on-surface hover:bg-surface-container-high transition-colors cursor-pointer">
+      <span class="material-symbols-outlined">logout</span> Logout
+    </a>
+  </div>
+</nav>
+
+<!-- Main Content -->
+<main class="flex-1 lg:ml-64 p-gutter md:p-xl w-full max-w-container-max mx-auto flex flex-col gap-xl">
+  <header class="flex flex-col md:flex-row md:items-end justify-between gap-md border-b border-white/5 pb-md">
+    <div>
+      <h2 class="font-display-xl text-display-xl tracking-tighter text-on-background">Dashboard</h2>
+      <p class="font-body-md text-body-md text-outline mt-sm">Real-time performance analytics.</p>
+    </div>
+    <a href="/upload" class="bg-primary text-on-primary hover:bg-primary-fixed transition-colors duration-200 px-lg py-sm rounded-lg font-label-caps text-label-caps flex items-center gap-sm shadow-[0_0_20px_rgba(173,198,255,0.2)]">
+      <span class="material-symbols-outlined text-base">add</span> New Workout
+    </a>
+  </header>
+
+  <!-- Metrics -->
+  <section class="grid grid-cols-1 md:grid-cols-3 gap-md">
+    <div class="bg-surface-container/40 backdrop-blur-xl border border-white/10 rounded-xl p-lg flex flex-col gap-md relative overflow-hidden group">
+      <div class="absolute -right-10 -top-10 w-32 h-32 bg-primary/10 rounded-full blur-3xl group-hover:bg-primary/20 transition-all duration-500"></div>
+      <div class="flex items-center justify-between text-outline"><span class="font-label-caps text-label-caps">Total Reps</span><span class="material-symbols-outlined">repeat</span></div>
+      <div id="metric-reps" class="font-mono-metrics text-[48px] leading-tight text-on-background">0</div>
+      <div class="flex items-center gap-xs text-secondary-container font-label-caps text-label-caps mt-auto"><span class="material-symbols-outlined text-[16px]">trending_up</span> All time</div>
+    </div>
+    <div class="bg-surface-container/40 backdrop-blur-xl border border-white/10 rounded-xl p-lg flex flex-col gap-md relative overflow-hidden group">
+      <div class="absolute -right-10 -top-10 w-32 h-32 bg-secondary-container/10 rounded-full blur-3xl group-hover:bg-secondary-container/20 transition-all duration-500"></div>
+      <div class="flex items-center justify-between text-outline"><span class="font-label-caps text-label-caps">Completed Sessions</span><span class="material-symbols-outlined">analytics</span></div>
+      <div id="metric-completed" class="font-mono-metrics text-[48px] leading-tight text-secondary">0</div>
+      <div class="flex items-center gap-xs text-outline font-label-caps text-label-caps mt-auto" id="metric-status-info">Loading...</div>
+    </div>
+    <div class="bg-surface-container/40 backdrop-blur-xl border border-white/10 rounded-xl p-lg flex flex-col gap-md relative overflow-hidden group">
+      <div class="absolute -right-10 -top-10 w-32 h-32 bg-primary-container/10 rounded-full blur-3xl group-hover:bg-primary-container/20 transition-all duration-500"></div>
+      <div class="flex items-center justify-between text-outline"><span class="font-label-caps text-label-caps">Total Workouts</span><span class="material-symbols-outlined">format_list_bulleted</span></div>
+      <div id="metric-total" class="font-mono-metrics text-[48px] leading-tight text-on-background">0</div>
+      <div class="w-full bg-surface-container-high h-1 rounded-full mt-auto overflow-hidden"><div id="metric-bar" class="bg-primary h-full rounded-full shadow-[0_0_10px_rgba(173,198,255,0.5)]" style="width:0%"></div></div>
+    </div>
+  </section>
+
+  <!-- Recent Activity -->
+  <section class="flex flex-col gap-md">
+    <h3 class="font-headline-lg text-headline-lg text-on-background">Recent Activity</h3>
+    <div id="activity-list" class="flex flex-col gap-sm">
+      <div class="text-center text-outline py-xl font-body-md">Loading workouts...</div>
+    </div>
+  </section>
+</main>
+
+<script src="/static/js/api.js"></script>
+<script>
+if (!API.requireAuth()) throw 'redirect';
+
+const ICONS = { squat:'fitness_center', pushup:'sports_gymnastics', default:'exercise' };
+const STATUS_BADGES = {
+  completed: '<span class="inline-flex items-center px-sm py-[2px] rounded border bg-secondary-container/10 border-secondary-container/30 text-secondary font-label-caps text-[10px]">Completed</span>',
+  processing: '<span class="inline-flex items-center px-sm py-[2px] rounded border bg-primary-container/10 border-primary/30 text-primary font-label-caps text-[10px]">Processing</span>',
+  failed: '<span class="inline-flex items-center px-sm py-[2px] rounded border bg-error-container/10 border-error/30 text-error font-label-caps text-[10px]">Failed</span>'
+};
+
+async function loadDashboard() {
+  try {
+    const workouts = await API.getMyWorkouts(0, 50);
+    const total = workouts.length;
+    const completed = workouts.filter(w => w.status === 'completed');
+    const totalReps = completed.reduce((sum, w) => sum + (w.total_reps || 0), 0);
+
+    document.getElementById('metric-reps').textContent = totalReps.toLocaleString();
+    document.getElementById('metric-completed').textContent = completed.length;
+    document.getElementById('metric-total').textContent = total;
+    document.getElementById('metric-status-info').textContent = `Based on ${completed.length} sessions`;
+    document.getElementById('metric-bar').style.width = total > 0 ? `${Math.min(100, (completed.length/total)*100)}%` : '0%';
+
+    const list = document.getElementById('activity-list');
+    if (!workouts.length) {
+      list.innerHTML = '<div class="text-center text-outline py-xl font-body-md">No workouts yet. Upload your first video!</div>';
+      return;
+    }
+    list.innerHTML = workouts.slice(0, 10).map(w => {
+      const icon = ICONS[w.exercise_type] || ICONS.default;
+      const badge = STATUS_BADGES[w.status] || STATUS_BADGES.processing;
+      const date = new Date(w.started_at).toLocaleString();
+      const repsText = w.status === 'completed' ? `${w.total_reps} Reps` : w.status === 'processing' ? '- Reps' : 'Error';
+      const formText = w.status === 'completed' ? `Reps: ${w.total_reps}` : w.status === 'processing' ? 'Analyzing...' : 'Failed';
+      const clickable = w.status === 'completed' ? `onclick="window.location.href='/results/${w.id}'" style="cursor:pointer"` : '';
+      return `<div class="bg-surface-container-low/60 backdrop-blur-sm border border-white/5 rounded-xl p-md flex flex-col sm:flex-row sm:items-center justify-between gap-md hover:bg-surface-container/80 hover:border-white/10 transition-all duration-200 group" ${clickable}>
+        <div class="flex items-center gap-md">
+          <div class="w-12 h-12 rounded-lg bg-surface flex items-center justify-center border border-white/5 group-hover:border-primary/30 transition-colors">
+            <span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors">${icon}</span>
+          </div>
+          <div>
+            <h4 class="font-headline-md text-[18px] text-on-surface">${w.exercise_type.charAt(0).toUpperCase() + w.exercise_type.slice(1)} Session</h4>
+            <p class="font-body-md text-[14px] text-outline">${date}</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-lg">
+          <div class="text-right hidden md:block">
+            <p class="font-mono-metrics text-[16px] text-on-surface">${formText}</p>
+            <p class="font-body-md text-[14px] text-outline">${repsText}</p>
+          </div>
+          ${badge}
+        </div>
+      </div>`;
+    }).join('');
+  } catch (err) { console.error(err); }
+}
+
+loadDashboard();
+// Poll for processing updates every 10s
+setInterval(loadDashboard, 10000);
+</script>
+</body></html>

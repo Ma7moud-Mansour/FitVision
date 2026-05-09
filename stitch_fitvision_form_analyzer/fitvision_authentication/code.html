@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FitVision - Authentication</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        @import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;600;700&family=Inter:wght@400;500;600&display=swap');
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed": "#d8e2ff",
+                        "outline": "#8b90a0",
+                        "surface-container": "#201f1f",
+                        "background": "#131313",
+                        "on-background": "#e5e2e1",
+                        "inverse-surface": "#e5e2e1",
+                        "secondary": "#d7ffc5",
+                        "on-error": "#690005",
+                        "on-secondary-container": "#0f6d00",
+                        "primary-fixed-dim": "#adc6ff",
+                        "surface-dim": "#131313",
+                        "surface-tint": "#adc6ff",
+                        "primary": "#adc6ff",
+                        "secondary-fixed-dim": "#2ae500",
+                        "on-primary-fixed": "#001a41",
+                        "surface-container-low": "#1c1b1b",
+                        "surface-container-high": "#2a2a2a",
+                        "on-primary": "#002e69",
+                        "inverse-on-surface": "#313030",
+                        "on-secondary": "#053900",
+                        "on-surface": "#e5e2e1",
+                        "surface": "#131313",
+                        "on-tertiary-fixed-variant": "#6e3900",
+                        "on-primary-container": "#00285c",
+                        "outline-variant": "#414755",
+                        "error": "#ffb4ab",
+                        "surface-container-highest": "#353534",
+                        "on-secondary-fixed": "#022100",
+                        "error-container": "#93000a",
+                        "inverse-primary": "#005bc1",
+                        "tertiary": "#ffb77d",
+                        "on-surface-variant": "#c1c6d7",
+                        "on-tertiary": "#4d2600",
+                        "primary-container": "#4b8eff",
+                        "surface-variant": "#353534",
+                        "on-secondary-fixed-variant": "#095300",
+                        "on-tertiary-container": "#432100",
+                        "secondary-container": "#2ff801",
+                        "tertiary-container": "#da7700",
+                        "tertiary-fixed-dim": "#ffb77d",
+                        "surface-bright": "#393939",
+                        "surface-container-lowest": "#0e0e0e",
+                        "on-error-container": "#ffdad6",
+                        "on-primary-fixed-variant": "#004493",
+                        "secondary-fixed": "#79ff5b",
+                        "tertiary-fixed": "#ffdcc3",
+                        "on-tertiary-fixed": "#2f1500"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "xs": "4px",
+                        "gutter": "20px",
+                        "container-max": "1280px",
+                        "base": "4px",
+                        "sm": "8px",
+                        "xl": "48px",
+                        "md": "16px",
+                        "lg": "24px"
+                    },
+                    "fontFamily": {
+                        "label-caps": ["Geist"],
+                        "mono-metrics": ["Geist"],
+                        "display-xl-mobile": ["Geist"],
+                        "headline-md": ["Geist"],
+                        "body-md": ["Inter"],
+                        "headline-lg": ["Geist"],
+                        "body-lg": ["Inter"],
+                        "display-xl": ["Geist"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["12px", { "lineHeight": "16px", "letterSpacing": "0.1em", "fontWeight": "600" }],
+                        "mono-metrics": ["20px", { "lineHeight": "24px", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                        "display-xl-mobile": ["36px", { "lineHeight": "42px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "display-xl": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background min-h-screen flex items-center justify-center p-md lg:p-xl relative overflow-hidden">
+<!-- Decorative Background Elements for High-Tech Vibe -->
+<div class="absolute inset-0 pointer-events-none z-0 overflow-hidden">
+<div class="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] bg-primary/5 rounded-full blur-[120px]"></div>
+<div class="absolute bottom-[-20%] right-[-10%] w-[60%] h-[60%] bg-primary/10 rounded-full blur-[150px]"></div>
+<div class="absolute top-[30%] right-[15%] w-32 h-32 bg-primary/20 rounded-full blur-[80px]"></div>
+<!-- Grid Overlay -->
+<div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCIgeTE9IjAiIHgyPSIwIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjZmZmZmZmIiBzdG9wLW9wYWNpdHk9IjAuMDIiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNmZmZmZmYiIHN0b3Atb3BhY2l0eT0iMCIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ1cmwoI2cpIiBzdHJva2Utd2lkdGg9IjEiLz48L3N2Zz4=')] opacity-30"></div>
+</div>
+<!-- Main Authentication Container (Glassmorphism) -->
+<main class="relative z-10 w-full max-w-[480px] bg-surface-container-low/80 backdrop-blur-[30px] rounded-xl border border-white/10 p-lg lg:p-[40px] shadow-[0_0_40px_rgba(173,198,255,0.05)]">
+<!-- Header -->
+<header class="text-center mb-xl">
+<h1 class="font-display-xl-mobile text-display-xl-mobile text-primary tracking-tighter mb-sm flex items-center justify-center gap-sm">
+<span class="material-symbols-outlined text-[40px]" style="font-variation-settings: 'FILL' 1;">fitness_center</span>
+                FitVision
+            </h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Initialize Your Performance Protocol</p>
+</header>
+<!-- Toggle (Login / Register) -->
+<div class="flex p-xs bg-surface-container-highest rounded-lg mb-lg border border-white/5">
+<button class="flex-1 py-sm text-center font-label-caps text-label-caps bg-primary-container/20 text-primary rounded-[6px] border border-primary/30 shadow-[0_0_10px_rgba(173,198,255,0.2)] transition-all">Login</button>
+<button class="flex-1 py-sm text-center font-label-caps text-label-caps text-outline hover:text-on-surface transition-colors rounded-[6px]">Register</button>
+</div>
+<!-- Form -->
+<form class="flex flex-col gap-md">
+<!-- Email Input -->
+<div class="flex flex-col gap-xs relative">
+<label class="font-label-caps text-label-caps text-on-surface-variant" for="email">Data Uplink (Email)</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline text-[20px]">mail</span>
+<input class="w-full bg-surface-dim border border-white/10 rounded-lg py-md pl-[48px] pr-md font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-all placeholder:text-outline/50" id="email" placeholder="athlete@fitvision.pro" type="email"/>
+</div>
+</div>
+<!-- Password Input -->
+<div class="flex flex-col gap-xs relative mb-sm">
+<div class="flex justify-between items-center">
+<label class="font-label-caps text-label-caps text-on-surface-variant" for="password">Access Key (Password)</label>
+<a class="font-label-caps text-label-caps text-primary hover:text-primary-fixed transition-colors" href="#">Forgot Key?</a>
+</div>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline text-[20px]">lock</span>
+<input class="w-full bg-surface-dim border border-white/10 rounded-lg py-md pl-[48px] pr-[48px] font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-all placeholder:text-outline/50" id="password" placeholder="••••••••" type="password"/>
+<button class="absolute right-md top-1/2 -translate-y-1/2 text-outline hover:text-primary transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">visibility</span>
+</button>
+</div>
+<!-- Validation State Example (Hidden by default, shown for demonstration) -->
+<!-- <p class="font-label-caps text-[10px] text-error flex items-center gap-[4px] mt-xs"><span class="material-symbols-outlined text-[14px]">error</span> Invalid Access Key</p> -->
+</div>
+<!-- Primary Action -->
+<button class="w-full bg-primary text-on-primary font-headline-md text-[18px] py-[14px] rounded-lg hover:bg-primary-fixed transition-all active:scale-[0.98] shadow-[0_0_20px_rgba(173,198,255,0.3)] flex justify-center items-center gap-sm mt-sm" type="submit">
+                Authenticate
+                <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</button>
+<!-- Divider -->
+<div class="flex items-center gap-md my-sm opacity-50">
+<div class="h-px bg-white/10 flex-1"></div>
+<span class="font-label-caps text-label-caps text-outline">OR CONNECT VIA</span>
+<div class="h-px bg-white/10 flex-1"></div>
+</div>
+<!-- SSO Options -->
+<div class="flex gap-md">
+<button class="flex-1 flex justify-center items-center gap-sm bg-surface-bright/50 border border-white/10 py-sm rounded-lg hover:bg-white/5 transition-all" type="button">
+<span class="material-symbols-outlined text-[20px]">account_circle</span>
+<span class="font-label-caps text-label-caps text-on-surface">Provider A</span>
+</button>
+<button class="flex-1 flex justify-center items-center gap-sm bg-surface-bright/50 border border-white/10 py-sm rounded-lg hover:bg-white/5 transition-all" type="button">
+<span class="material-symbols-outlined text-[20px]">devices</span>
+<span class="font-label-caps text-label-caps text-on-surface">Provider B</span>
+</button>
+</div>
+</form>
+<!-- AI Vision Indicator Graphic Elements -->
+<div class="absolute top-0 left-0 w-[15px] h-[15px] border-t-2 border-l-2 border-primary/40 rounded-tl-lg m-sm"></div>
+<div class="absolute top-0 right-0 w-[15px] h-[15px] border-t-2 border-r-2 border-primary/40 rounded-tr-lg m-sm"></div>
+<div class="absolute bottom-0 left-0 w-[15px] h-[15px] border-b-2 border-l-2 border-primary/40 rounded-bl-lg m-sm"></div>
+<div class="absolute bottom-0 right-0 w-[15px] h-[15px] border-b-2 border-r-2 border-primary/40 rounded-br-lg m-sm"></div>
+</main>
+</body></html>

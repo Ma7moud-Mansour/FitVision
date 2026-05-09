@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FitVision - Upload Workout</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+.material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;}
+::-webkit-scrollbar{width:8px}::-webkit-scrollbar-track{background:#131313}::-webkit-scrollbar-thumb{background:#353534;border-radius:4px}
+@keyframes shimmer{100%{transform:translateX(100%)}}
+@keyframes scan{0%,100%{transform:translateX(0);opacity:0}50%{transform:translateX(100%);opacity:1}}
+</style>
+<script>
+tailwind.config={darkMode:"class",theme:{extend:{
+colors:{"primary-fixed":"#d8e2ff","outline":"#8b90a0","surface-container":"#201f1f","background":"#131313","on-background":"#e5e2e1","secondary":"#d7ffc5","primary-fixed-dim":"#adc6ff","surface-dim":"#131313","primary":"#adc6ff","surface-container-low":"#1c1b1b","surface-container-high":"#2a2a2a","on-primary":"#002e69","on-surface":"#e5e2e1","surface":"#131313","outline-variant":"#414755","error":"#ffb4ab","surface-container-highest":"#353534","primary-container":"#4b8eff","surface-bright":"#393939","surface-container-lowest":"#0e0e0e","on-surface-variant":"#c1c6d7","secondary-container":"#2ff801","error-container":"#93000a","on-error-container":"#ffdad6","on-primary-container":"#00285c"},
+borderRadius:{DEFAULT:"0.125rem",lg:"0.25rem",xl:"0.5rem",full:"0.75rem"},
+spacing:{xs:"4px",gutter:"20px","container-max":"1280px",base:"4px",sm:"8px",xl:"48px",md:"16px",lg:"24px"},
+fontFamily:{"label-caps":["Geist"],"mono-metrics":["Geist"],"headline-md":["Geist"],"body-md":["Inter"],"headline-lg":["Geist"],"display-xl":["Geist"]},
+fontSize:{"label-caps":["12px",{lineHeight:"16px",letterSpacing:"0.1em",fontWeight:"600"}],"mono-metrics":["20px",{lineHeight:"24px",letterSpacing:"0.05em",fontWeight:"700"}],"headline-md":["24px",{lineHeight:"32px",fontWeight:"600"}],"body-md":["16px",{lineHeight:"24px",fontWeight:"400"}],"headline-lg":["32px",{lineHeight:"40px",fontWeight:"600"}],"display-xl":["48px",{lineHeight:"56px",letterSpacing:"-0.02em",fontWeight:"700"}]}
+}}}
+</script>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col relative overflow-hidden">
+<!-- Background glow -->
+<div class="absolute inset-0 pointer-events-none overflow-hidden z-0">
+  <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[100px]"></div>
+</div>
+<!-- Top bar -->
+<header class="relative z-10 w-full px-gutter py-lg flex items-center justify-between">
+  <a href="/dashboard" class="flex items-center gap-sm text-outline hover:text-primary transition-colors group">
+    <span class="material-symbols-outlined text-[20px] group-hover:-translate-x-1 transition-transform">arrow_back</span>
+    <span class="font-label-caps text-label-caps uppercase tracking-wider">Cancel Session</span>
+  </a>
+  <div class="flex items-center gap-xs text-on-surface-variant font-label-caps text-label-caps">
+    <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span> SYSTEM ONLINE
+  </div>
+</header>
+<!-- Main -->
+<main class="relative z-10 flex-grow flex flex-col items-center justify-center p-md md:p-lg w-full max-w-container-max mx-auto">
+  <div class="w-full max-w-3xl bg-surface-container-lowest/80 backdrop-blur-[40px] border border-white/5 rounded-xl shadow-[0_0_50px_rgba(0,0,0,0.8)] overflow-hidden flex flex-col">
+    <div class="px-xl py-lg border-b border-white/5 bg-gradient-to-b from-white/[0.02] to-transparent">
+      <h1 class="font-headline-lg text-headline-lg text-primary-fixed-dim mb-xs">Initialize Analysis</h1>
+      <p class="font-body-md text-body-md text-on-surface-variant">Upload raw footage for AI kinematic extraction. Maintain full-body visibility.</p>
+    </div>
+    <div class="p-xl flex flex-col gap-xl">
+      <!-- Exercise selector -->
+      <div class="flex flex-col gap-sm">
+        <label class="font-label-caps text-label-caps text-outline uppercase" for="exercise-type">Target Movement</label>
+        <div class="relative">
+          <select class="w-full bg-surface-container border border-outline-variant rounded-lg px-md py-sm font-body-md text-body-md text-on-surface appearance-none focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all cursor-pointer" id="exercise-type">
+            <option disabled selected value="">Select biometric profile...</option>
+            <option value="squat">SQUAT</option>
+            <option value="pushup">PUSHUP</option>
+          </select>
+          <span class="material-symbols-outlined absolute right-md top-1/2 -translate-y-1/2 text-outline pointer-events-none">expand_more</span>
+        </div>
+      </div>
+      <!-- Drop zone -->
+      <div class="relative group cursor-pointer" id="drop-zone" onclick="document.getElementById('file-input').click()">
+        <input type="file" id="file-input" class="hidden" accept="video/*" onchange="handleFile(this.files[0])"/>
+        <div class="border-2 border-dashed border-outline-variant group-hover:border-primary/50 group-hover:bg-primary/5 rounded-xl p-xl flex flex-col items-center justify-center gap-md transition-all duration-300 min-h-[240px] bg-surface-container-low/50">
+          <div class="w-16 h-16 rounded-full bg-surface-container flex items-center justify-center border border-white/5 shadow-inner group-hover:scale-110 transition-transform duration-300">
+            <span class="material-symbols-outlined text-[36px] text-primary-fixed-dim" style="font-variation-settings:'wght' 300;">cloud_upload</span>
+          </div>
+          <div class="text-center">
+            <h3 class="font-headline-md text-headline-md text-on-surface mb-xs group-hover:text-primary-fixed-dim transition-colors">Deploy Asset Array</h3>
+            <p class="font-body-md text-body-md text-on-surface-variant">Drag and drop MP4 or MOV payload here, or <span class="text-primary hover:underline">browse files</span></p>
+          </div>
+          <div class="mt-sm px-md py-xs rounded-full bg-surface-container-highest border border-outline-variant/30 font-label-caps text-label-caps text-outline">MAX 100MB / VIDEO SUPPORTED</div>
+        </div>
+      </div>
+      <!-- File info (hidden by default) -->
+      <div id="file-info" class="hidden mt-md border border-primary/20 bg-primary/5 rounded-lg p-md flex flex-col gap-md relative overflow-hidden">
+        <div class="absolute top-0 left-0 h-full w-[2px] bg-secondary-container shadow-[0_0_10px_#2ff801] animate-[scan_2s_ease-in-out_infinite]" id="scan-line" style="display:none"></div>
+        <div class="flex items-center justify-between z-10">
+          <div class="flex items-center gap-md">
+            <div class="p-sm bg-surface-container rounded-lg border border-white/5"><span class="material-symbols-outlined text-primary">movie</span></div>
+            <div class="flex flex-col">
+              <span class="font-body-md text-body-md text-on-surface font-medium" id="file-name">filename.mp4</span>
+              <span class="font-label-caps text-label-caps text-outline" id="file-size">0 MB</span>
+            </div>
+          </div>
+          <button class="text-outline hover:text-error transition-colors p-sm" onclick="clearFile()"><span class="material-symbols-outlined text-[20px]">close</span></button>
+        </div>
+        <div class="flex flex-col gap-xs z-10" id="progress-area" style="display:none">
+          <div class="flex justify-between items-end mb-xs">
+            <span class="font-label-caps text-label-caps text-primary uppercase tracking-widest" id="progress-label">Uploading...</span>
+            <span class="font-mono-metrics text-mono-metrics text-secondary-container drop-shadow-[0_0_8px_rgba(47,248,1,0.5)]" id="progress-pct">0%</span>
+          </div>
+          <div class="w-full h-2 bg-surface-container-highest rounded-full overflow-hidden border border-white/5">
+            <div class="h-full bg-primary-container shadow-[0_0_12px_rgba(75,142,255,0.8)] relative transition-all duration-300" id="progress-bar" style="width:0%">
+              <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full animate-[shimmer_1.5s_infinite]"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Footer -->
+    <div class="px-xl py-lg border-t border-white/5 bg-surface-container-lowest flex justify-end gap-md">
+      <button onclick="clearFile()" class="px-lg py-sm rounded-lg border border-outline-variant text-on-surface hover:bg-surface-container-high hover:text-white font-body-md text-body-md transition-all duration-200">Clear Data</button>
+      <button id="upload-btn" onclick="executeUpload()" class="px-lg py-sm rounded-lg bg-primary text-on-primary font-body-md text-body-md flex items-center gap-sm hover:bg-primary-fixed transition-all shadow-[0_0_20px_rgba(173,198,255,0.2)] disabled:opacity-40 disabled:cursor-not-allowed" disabled>
+        <span class="material-symbols-outlined text-[18px]">lock</span> Execute Upload
+      </button>
+    </div>
+  </div>
+</main>
+<script src="/static/js/api.js"></script>
+<script>
+if (!API.requireAuth()) throw 'redirect';
+let selectedFile = null;
+
+// Drag & drop
+const dz = document.getElementById('drop-zone');
+dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('ring-2','ring-primary'); });
+dz.addEventListener('dragleave', () => dz.classList.remove('ring-2','ring-primary'));
+dz.addEventListener('drop', e => { e.preventDefault(); dz.classList.remove('ring-2','ring-primary'); if(e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]); });
+
+function handleFile(file) {
+  if (!file || !file.type.startsWith('video/')) { alert('Please select a video file'); return; }
+  selectedFile = file;
+  document.getElementById('file-info').classList.remove('hidden');
+  document.getElementById('file-name').textContent = file.name;
+  document.getElementById('file-size').textContent = (file.size / 1024 / 1024).toFixed(1) + ' MB';
+  document.getElementById('upload-btn').disabled = false;
+  document.getElementById('upload-btn').innerHTML = '<span class="material-symbols-outlined text-[18px]">cloud_upload</span> Execute Upload';
+}
+
+function clearFile() {
+  selectedFile = null;
+  document.getElementById('file-info').classList.add('hidden');
+  document.getElementById('file-input').value = '';
+  document.getElementById('upload-btn').disabled = true;
+  document.getElementById('upload-btn').innerHTML = '<span class="material-symbols-outlined text-[18px]">lock</span> Execute Upload';
+  document.getElementById('progress-area').style.display = 'none';
+}
+
+async function executeUpload() {
+  const type = document.getElementById('exercise-type').value;
+  if (!type) { alert('Select a movement type first'); return; }
+  if (!selectedFile) return;
+
+  const btn = document.getElementById('upload-btn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="material-symbols-outlined text-[18px] animate-spin">progress_activity</span> Processing...';
+  
+  document.getElementById('progress-area').style.display = 'block';
+  document.getElementById('scan-line').style.display = 'block';
+  document.getElementById('progress-label').textContent = 'EXTRACTING KINEMATICS...';
+
+  // Simulate progress while uploading
+  let pct = 0;
+  const interval = setInterval(() => {
+    pct = Math.min(pct + Math.random()*15, 95);
+    document.getElementById('progress-bar').style.width = pct+'%';
+    document.getElementById('progress-pct').textContent = Math.round(pct)+'%';
+  }, 500);
+
+  try {
+    const result = await API.uploadVideo(selectedFile, type);
+    clearInterval(interval);
+    document.getElementById('progress-bar').style.width = '100%';
+    document.getElementById('progress-pct').textContent = '100%';
+    document.getElementById('progress-label').textContent = 'UPLOAD COMPLETE — PROCESSING IN BACKGROUND';
+    document.getElementById('file-size').textContent = (selectedFile.size/1024/1024).toFixed(1) + ' MB • Uploaded';
+
+    btn.innerHTML = '<span class="material-symbols-outlined text-[18px]">check_circle</span> Uploaded!';
+    setTimeout(() => window.location.href = '/dashboard', 2000);
+  } catch (err) {
+    clearInterval(interval);
+    document.getElementById('progress-label').textContent = 'ERROR: ' + err.message;
+    document.getElementById('progress-pct').textContent = '';
+    document.getElementById('progress-bar').style.width = '0%';
+    btn.disabled = false;
+    btn.innerHTML = '<span class="material-symbols-outlined text-[18px]">cloud_upload</span> Retry Upload';
+  }
+}
+</script>
+</body></html>

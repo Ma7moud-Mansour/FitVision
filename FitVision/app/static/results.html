@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FitVision - Analysis Result</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+.material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;}
+.custom-scrollbar::-webkit-scrollbar{width:6px}.custom-scrollbar::-webkit-scrollbar-track{background:transparent}.custom-scrollbar::-webkit-scrollbar-thumb{background:#414755;border-radius:4px}
+</style>
+<script>
+tailwind.config={darkMode:"class",theme:{extend:{
+colors:{"primary-fixed":"#d8e2ff","outline":"#8b90a0","surface-container":"#201f1f","background":"#131313","on-background":"#e5e2e1","secondary":"#d7ffc5","primary-fixed-dim":"#adc6ff","surface-dim":"#131313","primary":"#adc6ff","surface-container-low":"#1c1b1b","surface-container-high":"#2a2a2a","on-primary":"#002e69","on-surface":"#e5e2e1","surface":"#131313","outline-variant":"#414755","error":"#ffb4ab","surface-container-highest":"#353534","primary-container":"#4b8eff","surface-bright":"#393939","surface-container-lowest":"#0e0e0e","on-surface-variant":"#c1c6d7","secondary-container":"#2ff801","tertiary":"#ffb77d","tertiary-container":"#da7700","on-tertiary-container":"#432100","error-container":"#93000a","on-error-container":"#ffdad6"},
+borderRadius:{DEFAULT:"0.125rem",lg:"0.25rem",xl:"0.5rem",full:"0.75rem"},
+spacing:{xs:"4px",gutter:"20px","container-max":"1280px",base:"4px",sm:"8px",xl:"48px",md:"16px",lg:"24px"},
+fontFamily:{"label-caps":["Geist"],"mono-metrics":["Geist"],"headline-md":["Geist"],"body-md":["Inter"],"headline-lg":["Geist"],"display-xl":["Geist"],"display-xl-mobile":["Geist"]},
+fontSize:{"label-caps":["12px",{lineHeight:"16px",letterSpacing:"0.1em",fontWeight:"600"}],"mono-metrics":["20px",{lineHeight:"24px",letterSpacing:"0.05em",fontWeight:"700"}],"headline-md":["24px",{lineHeight:"32px",fontWeight:"600"}],"body-md":["16px",{lineHeight:"24px",fontWeight:"400"}],"headline-lg":["32px",{lineHeight:"40px",fontWeight:"600"}],"display-xl":["48px",{lineHeight:"56px",letterSpacing:"-0.02em",fontWeight:"700"}],"display-xl-mobile":["36px",{lineHeight:"42px",letterSpacing:"-0.02em",fontWeight:"700"}]}
+}}}
+</script>
+</head>
+<body class="bg-background text-on-background font-body-md text-body-md antialiased min-h-screen flex">
+<!-- SideNav -->
+<nav class="bg-surface-container-lowest/90 backdrop-blur-2xl border-r border-white/5 h-screen w-64 fixed left-0 top-0 hidden lg:flex flex-col z-50">
+  <div class="flex flex-col h-full py-lg px-md gap-sm">
+    <div class="mb-xl px-sm">
+      <h1 class="font-headline-md text-headline-md text-primary">FitVision</h1>
+      <p class="font-label-caps text-label-caps text-outline mt-xs">Analysis View</p>
+    </div>
+    <div class="flex-1 flex flex-col gap-xs">
+      <a class="flex items-center gap-md px-md py-sm rounded-lg text-outline hover:text-on-surface hover:bg-surface-container-high transition-colors cursor-pointer" href="/dashboard"><span class="material-symbols-outlined">dashboard</span><span class="font-label-caps text-label-caps">Overview</span></a>
+      <a class="flex items-center gap-md px-md py-sm rounded-lg text-outline hover:text-on-surface hover:bg-surface-container-high transition-colors cursor-pointer" href="/upload"><span class="material-symbols-outlined">cloud_upload</span><span class="font-label-caps text-label-caps">Upload Video</span></a>
+      <a class="flex items-center gap-md px-md py-sm rounded-lg bg-primary-container/20 text-primary border-r-2 border-primary cursor-pointer" href="#"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">psychology</span><span class="font-label-caps text-label-caps">AI Coach</span></a>
+    </div>
+    <div class="mt-auto pt-lg border-t border-white/5 flex flex-col gap-xs">
+      <a onclick="API.logout()" class="flex items-center gap-md px-md py-sm rounded-lg text-outline hover:text-on-surface hover:bg-surface-container-high transition-colors cursor-pointer"><span class="material-symbols-outlined">logout</span><span class="font-label-caps text-label-caps">Logout</span></a>
+    </div>
+  </div>
+</nav>
+<!-- Main -->
+<main class="flex-1 ml-0 lg:ml-64 w-full min-h-screen p-gutter md:p-lg lg:p-xl max-w-[1600px] mx-auto overflow-y-auto">
+  <header class="mb-lg flex flex-col md:flex-row md:items-end justify-between gap-md">
+    <div>
+      <a href="/dashboard" class="flex items-center gap-sm text-outline mb-xs hover:text-primary transition-colors"><span class="material-symbols-outlined text-[16px]">arrow_back</span><span class="font-label-caps text-label-caps tracking-widest uppercase">Session History</span></a>
+      <h2 class="font-display-xl-mobile md:font-display-xl text-display-xl-mobile md:text-display-xl text-primary font-bold tracking-tighter">Analysis Result</h2>
+    </div>
+    <div id="status-badge" class="flex items-center gap-sm bg-surface-container/50 backdrop-blur-md border border-white/10 rounded-full px-md py-xs">
+      <span class="material-symbols-outlined text-secondary" style="font-variation-settings:'FILL' 1;">verified</span>
+      <span class="font-label-caps text-label-caps text-on-surface">Loading...</span>
+    </div>
+  </header>
+
+  <!-- Metrics -->
+  <section class="grid grid-cols-2 md:grid-cols-4 gap-sm md:gap-md mb-lg">
+    <div class="bg-surface-container-low/60 backdrop-blur-xl border border-white/5 rounded-xl p-md flex flex-col justify-between">
+      <span class="font-label-caps text-label-caps text-outline uppercase tracking-widest mb-sm">Total Reps</span>
+      <div class="flex items-baseline gap-xs"><span id="m-reps" class="font-mono-metrics text-[32px] font-bold text-on-surface">-</span></div>
+    </div>
+    <div class="bg-surface-container-low/60 backdrop-blur-xl border border-white/5 rounded-xl p-md flex flex-col justify-between relative overflow-hidden">
+      <div class="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent pointer-events-none"></div>
+      <span class="font-label-caps text-label-caps text-outline uppercase tracking-widest mb-sm">Exercise Type</span>
+      <span id="m-type" class="font-mono-metrics text-[24px] font-bold text-primary uppercase">-</span>
+    </div>
+    <div class="bg-surface-container-low/60 backdrop-blur-xl border border-white/5 rounded-xl p-md flex flex-col justify-between">
+      <span class="font-label-caps text-label-caps text-outline uppercase tracking-widest mb-sm">Duration</span>
+      <div class="flex items-baseline gap-xs"><span id="m-duration" class="font-mono-metrics text-[32px] font-bold text-on-surface">-</span><span class="font-label-caps text-label-caps text-outline">SEC</span></div>
+    </div>
+    <div class="bg-surface-container-low/60 backdrop-blur-xl border border-white/5 rounded-xl p-md flex flex-col justify-between">
+      <span class="font-label-caps text-label-caps text-outline uppercase tracking-widest mb-sm">Status</span>
+      <span id="m-status" class="font-mono-metrics text-mono-metrics text-secondary">-</span>
+    </div>
+  </section>
+
+  <!-- Video + Feedback -->
+  <div class="grid grid-cols-1 xl:grid-cols-3 gap-md lg:gap-lg">
+    <section class="xl:col-span-2 flex flex-col gap-md">
+      <div class="relative w-full aspect-video bg-surface-container-highest border border-white/10 rounded-xl overflow-hidden shadow-[0_0_30px_rgba(0,0,0,0.5)]">
+        <video id="processed-video" class="absolute inset-0 w-full h-full object-contain bg-black" controls>
+          <source src="" type="video/mp4"/>
+          Your browser does not support video playback.
+        </video>
+        <!-- Fallback when no video -->
+        <div id="no-video" class="absolute inset-0 flex items-center justify-center bg-surface-container-highest">
+          <div class="text-center">
+            <span class="material-symbols-outlined text-[64px] text-outline/30">videocam_off</span>
+            <p class="font-body-md text-outline mt-md">Processed video will appear here</p>
+          </div>
+        </div>
+        <!-- HUD overlay -->
+        <div class="absolute top-md left-md bg-surface-container-lowest/80 backdrop-blur-md border border-white/10 px-sm py-xs rounded flex items-center gap-sm pointer-events-none">
+          <div class="w-2 h-2 rounded-full bg-error animate-pulse shadow-[0_0_8px_rgba(255,180,171,0.8)]"></div>
+          <span class="font-mono-metrics text-[12px] tracking-widest text-on-surface">REC.ANALYSIS</span>
+        </div>
+      </div>
+    </section>
+
+    <aside class="xl:col-span-1 flex flex-col gap-md">
+      <div class="bg-surface-container/60 backdrop-blur-xl border border-white/5 rounded-xl p-md flex flex-col">
+        <h3 class="font-headline-md text-[20px] text-on-surface mb-sm flex items-center gap-sm">
+          <span class="material-symbols-outlined text-primary">analytics</span> Session Info
+        </h3>
+        <p id="feedback-text" class="font-body-md text-on-surface-variant text-[14px] leading-relaxed mb-md">
+          Analysis data will be displayed once processing completes.
+        </p>
+        <div class="mt-auto pt-sm border-t border-white/5 grid grid-cols-2 gap-sm">
+          <div><p class="font-label-caps text-[10px] text-outline mb-xs">EXERCISE</p><p id="fb-exercise" class="font-body-md text-[14px] text-primary font-medium">-</p></div>
+          <div><p class="font-label-caps text-[10px] text-outline mb-xs">STARTED</p><p id="fb-started" class="font-body-md text-[14px] text-on-surface-variant font-medium">-</p></div>
+        </div>
+      </div>
+
+      <div class="bg-surface-container/40 backdrop-blur-xl border border-white/5 rounded-xl flex-1 flex flex-col overflow-hidden">
+        <div class="p-md border-b border-white/5 bg-surface-container-low/50">
+          <h4 class="font-label-caps text-label-caps text-outline tracking-widest">Session Details</h4>
+        </div>
+        <div id="details-list" class="overflow-y-auto flex-1 p-sm flex flex-col gap-xs custom-scrollbar">
+          <div class="text-center text-outline py-lg font-body-md">Loading...</div>
+        </div>
+      </div>
+    </aside>
+  </div>
+</main>
+
+<script src="/static/js/api.js"></script>
+<script>
+if (!API.requireAuth()) throw 'redirect';
+
+const sessionId = window.location.pathname.split('/results/')[1];
+
+async function loadResults() {
+  try {
+    const s = await API.getSessionStatus(sessionId);
+    
+    document.getElementById('m-reps').textContent = s.total_reps || 0;
+    document.getElementById('m-type').textContent = s.exercise_type || '-';
+    document.getElementById('m-duration').textContent = s.duration_seconds ? Math.round(s.duration_seconds) : '-';
+    document.getElementById('m-status').textContent = s.status.charAt(0).toUpperCase() + s.status.slice(1);
+    document.getElementById('m-status').className = 'font-mono-metrics text-mono-metrics ' + (s.status==='completed'?'text-secondary':s.status==='failed'?'text-error':'text-primary');
+
+    document.getElementById('fb-exercise').textContent = s.exercise_type.toUpperCase();
+    document.getElementById('fb-started').textContent = new Date(s.started_at).toLocaleString();
+
+    const badge = document.getElementById('status-badge');
+    if (s.status === 'completed') {
+      badge.innerHTML = '<span class="material-symbols-outlined text-secondary" style="font-variation-settings:\'FILL\' 1;">verified</span><span class="font-label-caps text-label-caps text-on-surface">Analysis Complete</span>';
+    } else if (s.status === 'processing') {
+      badge.innerHTML = '<span class="material-symbols-outlined text-primary animate-spin">progress_activity</span><span class="font-label-caps text-label-caps text-on-surface">Processing...</span>';
+    } else {
+      badge.innerHTML = '<span class="material-symbols-outlined text-error" style="font-variation-settings:\'FILL\' 1;">error</span><span class="font-label-caps text-label-caps text-error">Failed</span>';
+    }
+
+    // Video
+    if (s.processed_video_path) {
+      const videoEl = document.getElementById('processed-video');
+      videoEl.src = '/' + s.processed_video_path.replace(/\\/g, '/');
+      document.getElementById('no-video').style.display = 'none';
+    }
+
+    // Feedback
+    if (s.status === 'completed') {
+      document.getElementById('feedback-text').textContent = `Workout completed with ${s.total_reps} total repetitions over ${Math.round(s.duration_seconds || 0)} seconds. The ${s.exercise_type} session has been analyzed and the processed video is available for review.`;
+    } else if (s.status === 'processing') {
+      document.getElementById('feedback-text').textContent = 'Your video is currently being processed. This page will auto-refresh when analysis is complete.';
+      setTimeout(loadResults, 5000);
+    }
+
+    // Details
+    const dl = document.getElementById('details-list');
+    const details = [
+      { label: 'Exercise', value: s.exercise_type.toUpperCase(), icon: 'fitness_center' },
+      { label: 'Total Reps', value: s.total_reps || 0, icon: 'repeat' },
+      { label: 'Duration', value: (s.duration_seconds || 0) + 's', icon: 'timer' },
+      { label: 'Status', value: s.status, icon: 'info' },
+      { label: 'Started', value: new Date(s.started_at).toLocaleString(), icon: 'schedule' },
+      { label: 'Completed', value: s.completed_at ? new Date(s.completed_at).toLocaleString() : 'Pending', icon: 'check_circle' },
+    ];
+    dl.innerHTML = details.map(d => `
+      <div class="bg-surface-container p-sm rounded-lg border border-white/5 flex items-center gap-sm">
+        <div class="w-8 h-8 rounded bg-surface border border-white/10 flex items-center justify-center">
+          <span class="material-symbols-outlined text-[16px] text-outline">${d.icon}</span>
+        </div>
+        <div class="flex-1">
+          <span class="font-label-caps text-[10px] text-outline">${d.label}</span>
+          <p class="font-body-md text-[14px] text-on-surface">${d.value}</p>
+        </div>
+      </div>
+    `).join('');
+
+  } catch (err) {
+    console.error(err);
+    document.getElementById('feedback-text').textContent = 'Error loading session: ' + err.message;
+  }
+}
+
+loadResults();
+</script>
+</body></html>
