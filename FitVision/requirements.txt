@@ -1,0 +1,11 @@
+fastapi
+uvicorn[standard]
+python-multipart
+sqlalchemy
+psycopg2-binary
+pydantic-settings
+opencv-python
+mediapipe
+numpy
+pandas
+scikit-learn

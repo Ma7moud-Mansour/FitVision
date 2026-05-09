@@ -1,0 +1,37 @@
+# Python 🐍
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+env/
+venv/
+ENV/
+build/
+dist/
+*.egg-info/
+
+# Environment Variables 🔒
+.env
+.flaskenv
+
+# Media & Uploads (المهم جداً عشان متدفعش ثمن مساحة الـ Repo) 📹
+media/
+uploads/
+*.mp4
+*.avi
+*.mov
+
+# Machine Learning & Large Files 🧠
+# لو عندك موديلات مساحتها كبيرة (أكتر من 100 ميجا) يستحسن متبقاش على جيت
+app/ml/models/*.h5
+app/ml/models/*.pth
+app/ml/models/*.pkl
+app/ml/training/logs/
+.ipynb_checkpoints/
+
+# Operating System Files
+.DS_Store
+Thumbs.db
+
+# Databases
+*.sqlite3
