@@ -121,7 +121,7 @@ class VideoProcessor:
     def _draw_ui(self, frame, analysis, exercise_type):
         """دالة مساعدة لرسم الـ Feedback والـ Counter على الفيديو"""
         # رسم مستطيل خلفية للبيانات (عشان تبان لو الخلفية فاتحة)
-        cv2.rectangle(frame, (0, 0), (250, 150), (245, 117, 16), -1)
+        cv2.rectangle(frame, (0, 0), (350, 180), (245, 117, 16), -1)
 
         # 1. عرض نوع التمرين
         cv2.putText(frame, f"EXE: {exercise_type.upper()}",
@@ -132,11 +132,18 @@ class VideoProcessor:
                     (15, 70), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 3, cv2.LINE_AA)
 
         # 3. عرض الـ Feedback (Stage or Error)
-        status_color = (0, 255, 0) if "Perfect" in analysis.get('feedback', '') else (0, 255, 255)
+        status_color = (0, 255, 0) if "Perfect" in analysis.get('feedback', '') or "\u2705" in analysis.get('feedback', '') else (0, 255, 255)
         cv2.putText(frame, f"{analysis.get('feedback', '')}",
-                    (15, 110), cv2.FONT_HERSHEY_SIMPLEX, 0.6, status_color, 2, cv2.LINE_AA)
+                    (15, 110), cv2.FONT_HERSHEY_SIMPLEX, 0.5, status_color, 2, cv2.LINE_AA)
 
-        # 4. عرض الزاوية الحالية عند المفصل (اختياري)
+        # 4. عرض الزاوية الحالية عند المفصل
         if 'angle' in analysis:
             cv2.putText(frame, f"Angle: {int(analysis['angle'])}", (15, 140),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
+
+        # 5. ML Model Prediction (if available)
+        if 'ml_label' in analysis:
+            conf = analysis.get('ml_confidence', 0)
+            ml_color = (0, 255, 0) if conf > 0.7 else (0, 200, 255) if conf > 0.5 else (0, 100, 255)
+            cv2.putText(frame, f"ML: {analysis['ml_label']} ({conf:.0%})", (15, 170),
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.5, ml_color, 1, cv2.LINE_AA)
