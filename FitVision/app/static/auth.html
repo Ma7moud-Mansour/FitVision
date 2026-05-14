@@ -2,119 +2,235 @@
 <html class="dark" lang="en"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>FitVision - Authentication</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<title>FITVISION - Authentication</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=JetBrains+Mono:wght@400;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-<style>@import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;600;700&family=Inter:wght@400;500;600&display=swap');</style>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <script>
 tailwind.config = {
   darkMode: "class",
-  theme: { extend: {
-    colors: { "primary-fixed":"#d8e2ff","outline":"#8b90a0","surface-container":"#201f1f","background":"#131313","on-background":"#e5e2e1","secondary":"#d7ffc5","primary-fixed-dim":"#adc6ff","surface-dim":"#131313","surface-tint":"#adc6ff","primary":"#adc6ff","on-primary-fixed":"#001a41","surface-container-low":"#1c1b1b","surface-container-high":"#2a2a2a","on-primary":"#002e69","on-surface":"#e5e2e1","surface":"#131313","outline-variant":"#414755","error":"#ffb4ab","surface-container-highest":"#353534","primary-container":"#4b8eff","surface-bright":"#393939","surface-container-lowest":"#0e0e0e","on-surface-variant":"#c1c6d7","secondary-container":"#2ff801","on-error-container":"#ffdad6","error-container":"#93000a" },
-    borderRadius: { DEFAULT:"0.125rem", lg:"0.25rem", xl:"0.5rem", full:"0.75rem" },
-    spacing: { xs:"4px", gutter:"20px", "container-max":"1280px", base:"4px", sm:"8px", xl:"48px", md:"16px", lg:"24px" },
-    fontFamily: { "label-caps":["Geist"], "mono-metrics":["Geist"], "display-xl-mobile":["Geist"], "headline-md":["Geist"], "body-md":["Inter"], "headline-lg":["Geist"], "body-lg":["Inter"], "display-xl":["Geist"] },
-    fontSize: { "label-caps":["12px",{lineHeight:"16px",letterSpacing:"0.1em",fontWeight:"600"}], "display-xl-mobile":["36px",{lineHeight:"42px",letterSpacing:"-0.02em",fontWeight:"700"}], "headline-md":["24px",{lineHeight:"32px",fontWeight:"600"}], "body-md":["16px",{lineHeight:"24px",fontWeight:"400"}], "headline-lg":["32px",{lineHeight:"40px",fontWeight:"600"}], "display-xl":["48px",{lineHeight:"56px",letterSpacing:"-0.02em",fontWeight:"700"}] }
-  }}
+  theme: {
+    extend: {
+      colors: {
+        "primary-fixed-dim": "#abd600",
+        "on-tertiary": "#313030",
+        "surface-container-low": "#1a1c1c",
+        "surface-tint": "#abd600",
+        "on-secondary-container": "#b5b5b5",
+        "primary-fixed": "#c3f400",
+        "surface-container-lowest": "#0c0f0f",
+        "on-secondary": "#303030",
+        "surface-container-high": "#282a2b",
+        "error-container": "#93000a",
+        "surface-container": "#1e2020",
+        "tertiary": "#ffffff",
+        "inverse-on-surface": "#2f3131",
+        "secondary": "#c6c6c6",
+        "surface-bright": "#37393a",
+        "primary-container": "#c3f400",
+        "surface": "#121414",
+        "on-error": "#690005",
+        "on-primary": "#283500",
+        "outline-variant": "#444933",
+        "outline": "#8e9379",
+        "on-error-container": "#ffdad6",
+        "primary": "#ffffff",
+        "error": "#ffb4ab",
+        "surface-dim": "#121414",
+        "surface-variant": "#333535",
+        "surface-container-highest": "#333535",
+        "background": "#121414",
+        "on-surface": "#e2e2e2",
+        "secondary-container": "#474747",
+        "on-surface-variant": "#c4c9ac",
+        "on-background": "#e2e2e2"
+      },
+      borderRadius: {
+        "DEFAULT": "0px",
+        "lg": "0px",
+        "xl": "0px",
+        "full": "0px"
+      },
+      spacing: {
+        "unit": "4px",
+        "stack-sm": "8px",
+        "margin-mobile": "16px",
+        "gutter": "16px",
+        "stack-lg": "48px",
+        "margin-desktop": "48px",
+        "stack-md": "24px"
+      },
+      fontFamily: {
+        "body-lg": ["Montserrat"],
+        "label-caps": ["JetBrains Mono"],
+        "display-lg": ["Bebas Neue"],
+        "headline-md": ["Bebas Neue"],
+        "body-md": ["Montserrat"],
+        "headline-lg": ["Bebas Neue"],
+        "stat-value": ["Bebas Neue"]
+      },
+      fontSize: {
+        "body-lg": ["18px", { lineHeight: "28px", letterSpacing: "-0.01em", fontWeight: "600" }],
+        "label-caps": ["12px", { lineHeight: "16px", letterSpacing: "0.1em", fontWeight: "700" }],
+        "display-lg": ["84px", { lineHeight: "80px", letterSpacing: "0.02em", fontWeight: "700" }],
+        "headline-md": ["32px", { lineHeight: "32px", letterSpacing: "0.04em", fontWeight: "700" }],
+        "body-md": ["16px", { lineHeight: "24px", letterSpacing: "0em", fontWeight: "400" }],
+        "headline-lg": ["48px", { lineHeight: "48px", letterSpacing: "0.04em", fontWeight: "700" }],
+        "stat-value": ["24px", { lineHeight: "24px", letterSpacing: "0.05em", fontWeight: "400" }]
+      }
+    }
+  }
 }
 </script>
+<style>
+  .hard-shadow { box-shadow: 4px 4px 0px 0px var(--tw-shadow-color); }
+  .hard-shadow-lg { box-shadow: 8px 8px 0px 0px var(--tw-shadow-color); }
+  .texture-concrete::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><filter id="noiseFilter"><feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%25" height="100%25" filter="url(%23noiseFilter)" opacity="0.04"/></svg>');
+    pointer-events: none;
+    z-index: 0;
+  }
+  .texture-grid {
+    background-size: 24px 24px;
+    background-image: linear-gradient(to right, rgba(51, 53, 53, 0.15) 1px, transparent 1px),
+                      linear-gradient(to bottom, rgba(51, 53, 53, 0.15) 1px, transparent 1px);
+  }
+  @keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 0 15px rgba(195, 244, 0, 0.2); }
+    50% { box-shadow: 0 0 30px rgba(195, 244, 0, 0.4); }
+  }
+  @keyframes scan-line {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(100%); }
+  }
+  .scan-effect::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #c3f400, transparent);
+    animation: scan-line 3s linear infinite;
+    opacity: 0.3;
+  }
+</style>
 </head>
-<body class="bg-background text-on-background min-h-screen flex items-center justify-center p-md lg:p-xl relative overflow-hidden">
-<!-- Background -->
-<div class="absolute inset-0 pointer-events-none z-0 overflow-hidden">
-  <div class="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] bg-primary/5 rounded-full blur-[120px]"></div>
-  <div class="absolute bottom-[-20%] right-[-10%] w-[60%] h-[60%] bg-primary/10 rounded-full blur-[150px]"></div>
-  <div class="absolute top-[30%] right-[15%] w-32 h-32 bg-primary/20 rounded-full blur-[80px]"></div>
-  <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCIgeTE9IjAiIHgyPSIwIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjZmZmZmZmIiBzdG9wLW9wYWNpdHk9IjAuMDIiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNmZmZmZmYiIHN0b3Atb3BhY2l0eT0iMCIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ1cmwoI2cpIiBzdHJva2Utd2lkdGg9IjEiLz48L3N2Zz4=')] opacity-30"></div>
-</div>
-<!-- Main Card -->
-<main class="relative z-10 w-full max-w-[480px] bg-surface-container-low/80 backdrop-blur-[30px] rounded-xl border border-white/10 p-lg lg:p-[40px] shadow-[0_0_40px_rgba(173,198,255,0.05)]">
-  <header class="text-center mb-xl">
-    <h1 class="font-display-xl-mobile text-display-xl-mobile text-primary tracking-tighter mb-sm flex items-center justify-center gap-sm">
-      <span class="material-symbols-outlined text-[40px]" style="font-variation-settings:'FILL' 1;">fitness_center</span> FitVision
-    </h1>
-    <p class="font-body-md text-body-md text-on-surface-variant">Initialize Your Performance Protocol</p>
-  </header>
+<body class="bg-background text-on-surface font-body-md min-h-screen flex items-center justify-center p-margin-mobile relative overflow-hidden texture-grid">
 
-  <!-- Toggle -->
-  <div class="flex p-xs bg-surface-container-highest rounded-lg mb-lg border border-white/5">
-    <button id="tab-login" onclick="switchTab('login')" class="flex-1 py-sm text-center font-label-caps text-label-caps bg-primary-container/20 text-primary rounded-[6px] border border-primary/30 shadow-[0_0_10px_rgba(173,198,255,0.2)] transition-all">Login</button>
-    <button id="tab-register" onclick="switchTab('register')" class="flex-1 py-sm text-center font-label-caps text-label-caps text-outline hover:text-on-surface transition-colors rounded-[6px]">Register</button>
+<!-- Background Effects -->
+<div class="absolute inset-0 pointer-events-none z-0 overflow-hidden">
+  <div class="absolute top-[-30%] left-[-20%] w-[50%] h-[50%] bg-primary-fixed/5 blur-[150px]"></div>
+  <div class="absolute bottom-[-30%] right-[-20%] w-[50%] h-[50%] bg-primary-fixed/3 blur-[150px]"></div>
+</div>
+
+<!-- Auth Card -->
+<main class="relative z-10 w-full max-w-[520px] bg-surface-container-lowest border-2 border-surface-variant shadow-[8px_8px_0px_0px_#1a1c1c] overflow-hidden texture-concrete scan-effect">
+
+  <!-- Header -->
+  <div class="relative z-10 border-b-2 border-surface-variant bg-surface-container-low p-stack-md px-margin-desktop">
+    <div class="flex items-center gap-stack-sm mb-stack-sm">
+      <div class="w-12 h-12 border-2 border-primary-fixed flex items-center justify-center bg-surface">
+        <span class="material-symbols-outlined text-primary-fixed text-[28px]" style="font-variation-settings:'FILL' 1;">fitness_center</span>
+      </div>
+      <div>
+        <h1 class="font-headline-md text-headline-md italic tracking-tighter text-primary-fixed uppercase leading-none">FITVISION</h1>
+        <p class="font-label-caps text-label-caps uppercase text-secondary tracking-widest mt-unit">ELITE PERFORMANCE</p>
+      </div>
+    </div>
+    <p class="font-label-caps text-label-caps text-secondary uppercase tracking-wider">Initialize Your Performance Protocol</p>
+  </div>
+
+  <!-- Tab Toggle -->
+  <div class="relative z-10 flex border-b-2 border-surface-variant">
+    <button id="tab-login" onclick="switchTab('login')" class="flex-1 py-3 font-label-caps text-label-caps uppercase tracking-wider bg-primary-container text-on-primary border-b-4 border-primary-fixed transition-all">
+      LOGIN
+    </button>
+    <button id="tab-register" onclick="switchTab('register')" class="flex-1 py-3 font-label-caps text-label-caps uppercase tracking-wider text-secondary hover:text-primary-fixed border-b-4 border-transparent transition-all">
+      REGISTER
+    </button>
   </div>
 
   <!-- Error display -->
-  <div id="auth-error" class="hidden mb-md px-md py-sm rounded-lg bg-error-container/20 border border-error/30 text-error font-label-caps text-label-caps flex items-center gap-sm">
+  <div id="auth-error" class="hidden relative z-10 mx-6 mt-4 px-4 py-3 bg-error-container border-2 border-error text-on-error-container font-label-caps text-label-caps flex items-center gap-stack-sm">
     <span class="material-symbols-outlined text-[16px]">error</span>
     <span id="auth-error-text"></span>
   </div>
 
-  <!-- Login Form -->
-  <form id="login-form" class="flex flex-col gap-md" onsubmit="handleLogin(event)">
-    <div class="flex flex-col gap-xs">
-      <label class="font-label-caps text-label-caps text-on-surface-variant" for="login-username">Username</label>
-      <div class="relative">
-        <span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline text-[20px]">person</span>
-        <input class="w-full bg-surface-dim border border-white/10 rounded-lg py-md pl-[48px] pr-md font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-all placeholder:text-outline/50" id="login-username" placeholder="your_username" type="text" required/>
+  <div class="relative z-10 p-6 md:p-margin-desktop">
+    <!-- Login Form -->
+    <form id="login-form" class="flex flex-col gap-stack-md" onsubmit="handleLogin(event)">
+      <div class="flex flex-col gap-unit">
+        <label class="font-label-caps text-label-caps text-secondary uppercase tracking-wider" for="login-username">USERNAME</label>
+        <div class="relative">
+          <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-[20px]">person</span>
+          <input class="w-full bg-surface border-2 border-surface-variant py-3 pl-11 pr-4 font-label-caps text-label-caps text-on-surface focus:outline-none focus:border-primary-fixed transition-colors placeholder:text-secondary-container" id="login-username" placeholder="ENTER_USERNAME" type="text" required/>
+        </div>
       </div>
-    </div>
-    <div class="flex flex-col gap-xs mb-sm">
-      <label class="font-label-caps text-label-caps text-on-surface-variant" for="login-password">Access Key (Password)</label>
-      <div class="relative">
-        <span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline text-[20px]">lock</span>
-        <input class="w-full bg-surface-dim border border-white/10 rounded-lg py-md pl-[48px] pr-[48px] font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-all placeholder:text-outline/50" id="login-password" placeholder="••••••••" type="password" required/>
-        <button class="absolute right-md top-1/2 -translate-y-1/2 text-outline hover:text-primary transition-colors" type="button" onclick="togglePw('login-password')">
-          <span class="material-symbols-outlined text-[20px]">visibility</span>
-        </button>
+      <div class="flex flex-col gap-unit">
+        <label class="font-label-caps text-label-caps text-secondary uppercase tracking-wider" for="login-password">ACCESS KEY</label>
+        <div class="relative">
+          <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-[20px]">lock</span>
+          <input class="w-full bg-surface border-2 border-surface-variant py-3 pl-11 pr-11 font-label-caps text-label-caps text-on-surface focus:outline-none focus:border-primary-fixed transition-colors placeholder:text-secondary-container" id="login-password" placeholder="••••••••" type="password" required/>
+          <button class="absolute right-3 top-1/2 -translate-y-1/2 text-secondary hover:text-primary-fixed transition-colors" type="button" onclick="togglePw('login-password')">
+            <span class="material-symbols-outlined text-[20px]">visibility</span>
+          </button>
+        </div>
       </div>
-    </div>
-    <button id="login-btn" class="w-full bg-primary text-on-primary font-headline-md text-[18px] py-[14px] rounded-lg hover:bg-primary-fixed transition-all active:scale-[0.98] shadow-[0_0_20px_rgba(173,198,255,0.3)] flex justify-center items-center gap-sm mt-sm" type="submit">
-      Authenticate <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
-    </button>
-  </form>
+      <button id="login-btn" class="w-full bg-primary-fixed text-on-primary font-headline-md text-headline-md uppercase py-4 mt-stack-sm border-2 border-primary-fixed shadow-[4px_4px_0px_0px_#000] hover:translate-y-[2px] hover:translate-x-[2px] hover:shadow-[2px_2px_0px_0px_#000] transition-all active:scale-[0.98] flex justify-center items-center gap-stack-sm" type="submit">
+        AUTHENTICATE <span class="material-symbols-outlined text-[24px]">arrow_forward</span>
+      </button>
+    </form>
 
-  <!-- Register Form -->
-  <form id="register-form" class="hidden flex flex-col gap-md" onsubmit="handleRegister(event)">
-    <div class="flex flex-col gap-xs">
-      <label class="font-label-caps text-label-caps text-on-surface-variant">Full Name</label>
-      <div class="relative">
-        <span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline text-[20px]">badge</span>
-        <input class="w-full bg-surface-dim border border-white/10 rounded-lg py-md pl-[48px] pr-md font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-all placeholder:text-outline/50" id="reg-name" placeholder="Ahmed Mohamed" type="text"/>
+    <!-- Register Form -->
+    <form id="register-form" class="hidden flex flex-col gap-stack-md" onsubmit="handleRegister(event)">
+      <div class="flex flex-col gap-unit">
+        <label class="font-label-caps text-label-caps text-secondary uppercase tracking-wider">FULL NAME</label>
+        <div class="relative">
+          <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-[20px]">badge</span>
+          <input class="w-full bg-surface border-2 border-surface-variant py-3 pl-11 pr-4 font-label-caps text-label-caps text-on-surface focus:outline-none focus:border-primary-fixed transition-colors placeholder:text-secondary-container" id="reg-name" placeholder="ATHLETE_NAME" type="text"/>
+        </div>
       </div>
-    </div>
-    <div class="flex flex-col gap-xs">
-      <label class="font-label-caps text-label-caps text-on-surface-variant">Username</label>
-      <div class="relative">
-        <span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline text-[20px]">person</span>
-        <input class="w-full bg-surface-dim border border-white/10 rounded-lg py-md pl-[48px] pr-md font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-all placeholder:text-outline/50" id="reg-username" placeholder="athlete_01" type="text" required/>
+      <div class="flex flex-col gap-unit">
+        <label class="font-label-caps text-label-caps text-secondary uppercase tracking-wider">USERNAME</label>
+        <div class="relative">
+          <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-[20px]">person</span>
+          <input class="w-full bg-surface border-2 border-surface-variant py-3 pl-11 pr-4 font-label-caps text-label-caps text-on-surface focus:outline-none focus:border-primary-fixed transition-colors placeholder:text-secondary-container" id="reg-username" placeholder="ATHLETE_01" type="text" required/>
+        </div>
       </div>
-    </div>
-    <div class="flex flex-col gap-xs">
-      <label class="font-label-caps text-label-caps text-on-surface-variant">Data Uplink (Email)</label>
-      <div class="relative">
-        <span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline text-[20px]">mail</span>
-        <input class="w-full bg-surface-dim border border-white/10 rounded-lg py-md pl-[48px] pr-md font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-all placeholder:text-outline/50" id="reg-email" placeholder="athlete@fitvision.pro" type="email" required/>
+      <div class="flex flex-col gap-unit">
+        <label class="font-label-caps text-label-caps text-secondary uppercase tracking-wider">DATA UPLINK (EMAIL)</label>
+        <div class="relative">
+          <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-[20px]">mail</span>
+          <input class="w-full bg-surface border-2 border-surface-variant py-3 pl-11 pr-4 font-label-caps text-label-caps text-on-surface focus:outline-none focus:border-primary-fixed transition-colors placeholder:text-secondary-container" id="reg-email" placeholder="ATHLETE@FITVISION.PRO" type="email" required/>
+        </div>
       </div>
-    </div>
-    <div class="flex flex-col gap-xs mb-sm">
-      <label class="font-label-caps text-label-caps text-on-surface-variant">Access Key (Password)</label>
-      <div class="relative">
-        <span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline text-[20px]">lock</span>
-        <input class="w-full bg-surface-dim border border-white/10 rounded-lg py-md pl-[48px] pr-[48px] font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-all placeholder:text-outline/50" id="reg-password" placeholder="••••••••" type="password" required minlength="6"/>
-        <button class="absolute right-md top-1/2 -translate-y-1/2 text-outline hover:text-primary transition-colors" type="button" onclick="togglePw('reg-password')">
-          <span class="material-symbols-outlined text-[20px]">visibility</span>
-        </button>
+      <div class="flex flex-col gap-unit">
+        <label class="font-label-caps text-label-caps text-secondary uppercase tracking-wider">ACCESS KEY (PASSWORD)</label>
+        <div class="relative">
+          <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-[20px]">lock</span>
+          <input class="w-full bg-surface border-2 border-surface-variant py-3 pl-11 pr-11 font-label-caps text-label-caps text-on-surface focus:outline-none focus:border-primary-fixed transition-colors placeholder:text-secondary-container" id="reg-password" placeholder="••••••••" type="password" required minlength="6"/>
+          <button class="absolute right-3 top-1/2 -translate-y-1/2 text-secondary hover:text-primary-fixed transition-colors" type="button" onclick="togglePw('reg-password')">
+            <span class="material-symbols-outlined text-[20px]">visibility</span>
+          </button>
+        </div>
       </div>
-    </div>
-    <button class="w-full bg-primary text-on-primary font-headline-md text-[18px] py-[14px] rounded-lg hover:bg-primary-fixed transition-all active:scale-[0.98] shadow-[0_0_20px_rgba(173,198,255,0.3)] flex justify-center items-center gap-sm mt-sm" type="submit">
-      Create Protocol <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
-    </button>
-  </form>
+      <button class="w-full bg-primary-fixed text-on-primary font-headline-md text-headline-md uppercase py-4 mt-stack-sm border-2 border-primary-fixed shadow-[4px_4px_0px_0px_#000] hover:translate-y-[2px] hover:translate-x-[2px] hover:shadow-[2px_2px_0px_0px_#000] transition-all active:scale-[0.98] flex justify-center items-center gap-stack-sm" type="submit">
+        CREATE PROTOCOL <span class="material-symbols-outlined text-[24px]">arrow_forward</span>
+      </button>
+    </form>
+  </div>
 
   <!-- Corner indicators -->
-  <div class="absolute top-0 left-0 w-[15px] h-[15px] border-t-2 border-l-2 border-primary/40 rounded-tl-lg m-sm"></div>
-  <div class="absolute top-0 right-0 w-[15px] h-[15px] border-t-2 border-r-2 border-primary/40 rounded-tr-lg m-sm"></div>
-  <div class="absolute bottom-0 left-0 w-[15px] h-[15px] border-b-2 border-l-2 border-primary/40 rounded-bl-lg m-sm"></div>
-  <div class="absolute bottom-0 right-0 w-[15px] h-[15px] border-b-2 border-r-2 border-primary/40 rounded-br-lg m-sm"></div>
+  <div class="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-primary-fixed m-1 z-20"></div>
+  <div class="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-primary-fixed m-1 z-20"></div>
+  <div class="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-primary-fixed m-1 z-20"></div>
+  <div class="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-primary-fixed m-1 z-20"></div>
 </main>
 
 <script src="/static/js/api.js"></script>
@@ -127,13 +243,13 @@ function switchTab(tab) {
   if (tab === 'login') {
     document.getElementById('login-form').classList.remove('hidden');
     document.getElementById('register-form').classList.add('hidden');
-    document.getElementById('tab-login').className = 'flex-1 py-sm text-center font-label-caps text-label-caps bg-primary-container/20 text-primary rounded-[6px] border border-primary/30 shadow-[0_0_10px_rgba(173,198,255,0.2)] transition-all';
-    document.getElementById('tab-register').className = 'flex-1 py-sm text-center font-label-caps text-label-caps text-outline hover:text-on-surface transition-colors rounded-[6px]';
+    document.getElementById('tab-login').className = 'flex-1 py-3 font-label-caps text-label-caps uppercase tracking-wider bg-primary-container text-on-primary border-b-4 border-primary-fixed transition-all';
+    document.getElementById('tab-register').className = 'flex-1 py-3 font-label-caps text-label-caps uppercase tracking-wider text-secondary hover:text-primary-fixed border-b-4 border-transparent transition-all';
   } else {
     document.getElementById('login-form').classList.add('hidden');
     document.getElementById('register-form').classList.remove('hidden');
-    document.getElementById('tab-register').className = 'flex-1 py-sm text-center font-label-caps text-label-caps bg-primary-container/20 text-primary rounded-[6px] border border-primary/30 shadow-[0_0_10px_rgba(173,198,255,0.2)] transition-all';
-    document.getElementById('tab-login').className = 'flex-1 py-sm text-center font-label-caps text-label-caps text-outline hover:text-on-surface transition-colors rounded-[6px]';
+    document.getElementById('tab-register').className = 'flex-1 py-3 font-label-caps text-label-caps uppercase tracking-wider bg-primary-container text-on-primary border-b-4 border-primary-fixed transition-all';
+    document.getElementById('tab-login').className = 'flex-1 py-3 font-label-caps text-label-caps uppercase tracking-wider text-secondary hover:text-primary-fixed border-b-4 border-transparent transition-all';
   }
 }
 

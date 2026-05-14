@@ -1,113 +1,318 @@
 <!DOCTYPE html>
 <html class="dark" lang="en"><head>
 <meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>FitVision - Upload Workout</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<title>FITVISION - Upload Lab</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=JetBrains+Mono:wght@400;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
-<style>
-.material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;}
-::-webkit-scrollbar{width:8px}::-webkit-scrollbar-track{background:#131313}::-webkit-scrollbar-thumb{background:#353534;border-radius:4px}
-@keyframes shimmer{100%{transform:translateX(100%)}}
-@keyframes scan{0%,100%{transform:translateX(0);opacity:0}50%{transform:translateX(100%);opacity:1}}
-</style>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <script>
-tailwind.config={darkMode:"class",theme:{extend:{
-colors:{"primary-fixed":"#d8e2ff","outline":"#8b90a0","surface-container":"#201f1f","background":"#131313","on-background":"#e5e2e1","secondary":"#d7ffc5","primary-fixed-dim":"#adc6ff","surface-dim":"#131313","primary":"#adc6ff","surface-container-low":"#1c1b1b","surface-container-high":"#2a2a2a","on-primary":"#002e69","on-surface":"#e5e2e1","surface":"#131313","outline-variant":"#414755","error":"#ffb4ab","surface-container-highest":"#353534","primary-container":"#4b8eff","surface-bright":"#393939","surface-container-lowest":"#0e0e0e","on-surface-variant":"#c1c6d7","secondary-container":"#2ff801","error-container":"#93000a","on-error-container":"#ffdad6","on-primary-container":"#00285c"},
-borderRadius:{DEFAULT:"0.125rem",lg:"0.25rem",xl:"0.5rem",full:"0.75rem"},
-spacing:{xs:"4px",gutter:"20px","container-max":"1280px",base:"4px",sm:"8px",xl:"48px",md:"16px",lg:"24px"},
-fontFamily:{"label-caps":["Geist"],"mono-metrics":["Geist"],"headline-md":["Geist"],"body-md":["Inter"],"headline-lg":["Geist"],"display-xl":["Geist"]},
-fontSize:{"label-caps":["12px",{lineHeight:"16px",letterSpacing:"0.1em",fontWeight:"600"}],"mono-metrics":["20px",{lineHeight:"24px",letterSpacing:"0.05em",fontWeight:"700"}],"headline-md":["24px",{lineHeight:"32px",fontWeight:"600"}],"body-md":["16px",{lineHeight:"24px",fontWeight:"400"}],"headline-lg":["32px",{lineHeight:"40px",fontWeight:"600"}],"display-xl":["48px",{lineHeight:"56px",letterSpacing:"-0.02em",fontWeight:"700"}]}
-}}}
+tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      colors: {
+        "primary-fixed-dim": "#abd600",
+        "on-tertiary": "#313030",
+        "surface-container-low": "#1a1c1c",
+        "surface-tint": "#abd600",
+        "on-secondary-container": "#b5b5b5",
+        "primary-fixed": "#c3f400",
+        "surface-container-lowest": "#0c0f0f",
+        "on-secondary": "#303030",
+        "surface-container-high": "#282a2b",
+        "error-container": "#93000a",
+        "surface-container": "#1e2020",
+        "tertiary": "#ffffff",
+        "secondary": "#c6c6c6",
+        "surface-bright": "#37393a",
+        "primary-container": "#c3f400",
+        "surface": "#121414",
+        "on-error": "#690005",
+        "on-primary": "#283500",
+        "on-primary-container": "#556d00",
+        "outline-variant": "#444933",
+        "outline": "#8e9379",
+        "on-error-container": "#ffdad6",
+        "primary": "#ffffff",
+        "error": "#ffb4ab",
+        "surface-dim": "#121414",
+        "surface-variant": "#333535",
+        "surface-container-highest": "#333535",
+        "background": "#121414",
+        "on-surface": "#e2e2e2",
+        "secondary-container": "#474747",
+        "on-surface-variant": "#c4c9ac",
+        "on-background": "#e2e2e2",
+        "secondary-fixed-dim": "#c6c6c6"
+      },
+      borderRadius: { "DEFAULT": "0px", "lg": "0px", "xl": "0px", "full": "9999px" },
+      spacing: {
+        "unit": "4px", "stack-sm": "8px", "margin-mobile": "16px",
+        "gutter": "16px", "stack-lg": "48px", "margin-desktop": "48px", "stack-md": "24px"
+      },
+      fontFamily: {
+        "body-lg": ["Montserrat"], "label-caps": ["JetBrains Mono"],
+        "display-lg": ["Bebas Neue"], "headline-md": ["Bebas Neue"],
+        "body-md": ["Montserrat"], "headline-lg": ["Bebas Neue"], "stat-value": ["Bebas Neue"]
+      },
+      fontSize: {
+        "body-lg": ["18px", { lineHeight: "28px", letterSpacing: "-0.01em", fontWeight: "600" }],
+        "label-caps": ["12px", { lineHeight: "16px", letterSpacing: "0.1em", fontWeight: "700" }],
+        "display-lg": ["84px", { lineHeight: "80px", letterSpacing: "0.02em", fontWeight: "700" }],
+        "headline-md": ["32px", { lineHeight: "32px", letterSpacing: "0.04em", fontWeight: "700" }],
+        "body-md": ["16px", { lineHeight: "24px", letterSpacing: "0em", fontWeight: "400" }],
+        "headline-lg": ["48px", { lineHeight: "48px", letterSpacing: "0.04em", fontWeight: "700" }],
+        "stat-value": ["24px", { lineHeight: "24px", letterSpacing: "0.05em", fontWeight: "400" }]
+      }
+    }
+  }
+}
 </script>
+<style>
+  .material-symbols-outlined { font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+  .texture-concrete { position: relative; }
+  .texture-concrete::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><filter id="noiseFilter"><feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%25" height="100%25" filter="url(%23noiseFilter)" opacity="0.05"/></svg>');
+    pointer-events: none;
+    z-index: 10;
+  }
+  @keyframes shimmer{100%{transform:translateX(100%)}}
+  @keyframes scan{0%,100%{transform:translateX(0);opacity:0}50%{transform:translateX(100%);opacity:1}}
+  .mobile-nav { transform: translateX(-100%); transition: transform 0.3s ease; }
+  .mobile-nav.open { transform: translateX(0); }
+  .mobile-overlay { opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
+  .mobile-overlay.open { opacity: 1; pointer-events: auto; }
+</style>
 </head>
-<body class="bg-background text-on-background min-h-screen flex flex-col relative overflow-hidden">
-<!-- Background glow -->
-<div class="absolute inset-0 pointer-events-none overflow-hidden z-0">
-  <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[100px]"></div>
-</div>
-<!-- Top bar -->
-<header class="relative z-10 w-full px-gutter py-lg flex items-center justify-between">
-  <a href="/dashboard" class="flex items-center gap-sm text-outline hover:text-primary transition-colors group">
-    <span class="material-symbols-outlined text-[20px] group-hover:-translate-x-1 transition-transform">arrow_back</span>
-    <span class="font-label-caps text-label-caps uppercase tracking-wider">Cancel Session</span>
-  </a>
-  <div class="flex items-center gap-xs text-on-surface-variant font-label-caps text-label-caps">
-    <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span> SYSTEM ONLINE
+<body class="bg-surface-container-lowest text-on-surface flex flex-col md:flex-row h-screen overflow-hidden font-body-md antialiased selection:bg-primary-fixed selection:text-black">
+
+<!-- SideNavBar (Desktop) -->
+<nav class="hidden md:flex flex-col h-screen w-64 border-r-2 border-secondary-container bg-surface-container-lowest py-stack-md shrink-0">
+  <div class="px-4 mb-8">
+    <h1 class="font-headline-md text-headline-md italic tracking-tighter text-primary-fixed uppercase">FITVISION</h1>
+    <p class="font-label-caps text-label-caps uppercase text-secondary mt-1">ELITE PERFORMANCE</p>
   </div>
-</header>
-<!-- Main -->
-<main class="relative z-10 flex-grow flex flex-col items-center justify-center p-md md:p-lg w-full max-w-container-max mx-auto">
-  <div class="w-full max-w-3xl bg-surface-container-lowest/80 backdrop-blur-[40px] border border-white/5 rounded-xl shadow-[0_0_50px_rgba(0,0,0,0.8)] overflow-hidden flex flex-col">
-    <div class="px-xl py-lg border-b border-white/5 bg-gradient-to-b from-white/[0.02] to-transparent">
-      <h1 class="font-headline-lg text-headline-lg text-primary-fixed-dim mb-xs">Initialize Analysis</h1>
-      <p class="font-body-md text-body-md text-on-surface-variant">Upload raw footage for AI kinematic extraction. Maintain full-body visibility.</p>
+  <div class="flex-1 flex flex-col gap-2">
+    <a class="flex items-center gap-stack-sm px-4 py-3 text-secondary hover:text-primary-fixed hover:bg-surface-container-high transition-colors font-label-caps text-label-caps uppercase" href="/dashboard">
+      <span class="material-symbols-outlined" data-icon="dashboard">dashboard</span> OVERVIEW
+    </a>
+    <a class="flex items-center gap-stack-sm px-4 py-3 bg-primary-container text-on-primary-container border-r-4 border-primary-fixed font-bold font-label-caps text-label-caps uppercase scale-95 transition-transform duration-75" href="/upload">
+      <span class="material-symbols-outlined" data-icon="cloud_upload">cloud_upload</span> UPLOAD VIDEO
+    </a>
+    <a class="flex items-center gap-stack-sm px-4 py-3 text-secondary hover:text-primary-fixed hover:bg-surface-container-high transition-colors font-label-caps text-label-caps uppercase" href="#">
+      <span class="material-symbols-outlined" data-icon="psychology">psychology</span> AI COACH
+    </a>
+    <a class="flex items-center gap-stack-sm px-4 py-3 text-secondary hover:text-primary-fixed hover:bg-surface-container-high transition-colors font-label-caps text-label-caps uppercase" href="#">
+      <span class="material-symbols-outlined" data-icon="settings">settings</span> SETTINGS
+    </a>
+  </div>
+  <div class="px-4 mt-auto flex flex-col gap-4">
+    <div class="flex flex-col gap-2 mt-4 border-t-2 border-secondary-container pt-4">
+      <a class="flex items-center gap-stack-sm px-4 py-3 text-secondary hover:text-primary-fixed transition-colors font-label-caps text-label-caps uppercase" href="#">
+        <span class="material-symbols-outlined" data-icon="help">help</span> SUPPORT
+      </a>
+      <a onclick="API.logout()" class="flex items-center gap-stack-sm px-4 py-3 text-secondary hover:text-primary-fixed transition-colors font-label-caps text-label-caps uppercase cursor-pointer">
+        <span class="material-symbols-outlined" data-icon="logout">logout</span> LOGOUT
+      </a>
     </div>
-    <div class="p-xl flex flex-col gap-xl">
-      <!-- Exercise selector -->
-      <div class="flex flex-col gap-sm">
-        <label class="font-label-caps text-label-caps text-outline uppercase" for="exercise-type">Target Movement</label>
-        <div class="relative">
-          <select class="w-full bg-surface-container border border-outline-variant rounded-lg px-md py-sm font-body-md text-body-md text-on-surface appearance-none focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all cursor-pointer" id="exercise-type">
-            <option disabled selected value="">Select biometric profile...</option>
-            <option value="squat">SQUAT</option>
-            <option value="pushup">PUSHUP</option>
-            <option value="pull_up">PULL UP</option>
-            <option value="situp">SITUP</option>
-            <option value="jumping_jack">JUMPING JACK</option>
-          </select>
-          <span class="material-symbols-outlined absolute right-md top-1/2 -translate-y-1/2 text-outline pointer-events-none">expand_more</span>
-        </div>
+  </div>
+</nav>
+
+<!-- Mobile Sidebar Overlay -->
+<div id="mobile-overlay" class="mobile-overlay fixed inset-0 bg-black/70 z-[60] md:hidden" onclick="closeMobileNav()"></div>
+<nav id="mobile-nav" class="mobile-nav fixed top-0 left-0 h-screen w-64 bg-surface-container-lowest border-r-2 border-secondary-container flex flex-col py-stack-md z-[70] md:hidden">
+  <div class="px-4 mb-stack-lg flex items-center justify-between">
+    <div>
+      <h1 class="font-headline-md text-headline-md italic tracking-tighter text-primary-fixed uppercase">FITVISION</h1>
+      <p class="font-label-caps text-label-caps uppercase text-secondary mt-1">ELITE PERFORMANCE</p>
+    </div>
+    <span class="material-symbols-outlined text-secondary hover:text-primary-fixed cursor-pointer" onclick="closeMobileNav()">close</span>
+  </div>
+  <div class="flex-1 flex flex-col gap-2">
+    <a class="flex items-center gap-stack-sm px-4 py-3 text-secondary hover:text-primary-fixed hover:bg-surface-container-high transition-colors font-label-caps text-label-caps uppercase" href="/dashboard">
+      <span class="material-symbols-outlined">dashboard</span> OVERVIEW
+    </a>
+    <a class="flex items-center gap-stack-sm px-4 py-3 bg-primary-container text-on-primary-container border-r-4 border-primary-fixed font-bold font-label-caps text-label-caps uppercase" href="/upload">
+      <span class="material-symbols-outlined">cloud_upload</span> UPLOAD VIDEO
+    </a>
+    <a class="flex items-center gap-stack-sm px-4 py-3 text-secondary hover:text-primary-fixed hover:bg-surface-container-high transition-colors font-label-caps text-label-caps uppercase" href="#">
+      <span class="material-symbols-outlined">psychology</span> AI COACH
+    </a>
+    <a class="flex items-center gap-stack-sm px-4 py-3 text-secondary hover:text-primary-fixed hover:bg-surface-container-high transition-colors font-label-caps text-label-caps uppercase" href="#">
+      <span class="material-symbols-outlined">settings</span> SETTINGS
+    </a>
+  </div>
+  <div class="px-4 mt-auto flex flex-col gap-2 border-t-2 border-secondary-container pt-4">
+    <a onclick="API.logout()" class="flex items-center gap-stack-sm px-4 py-3 text-secondary hover:text-primary-fixed transition-colors font-label-caps text-label-caps uppercase cursor-pointer">
+      <span class="material-symbols-outlined">logout</span> LOGOUT
+    </a>
+  </div>
+</nav>
+
+<!-- Main Content Canvas -->
+<main class="flex flex-col flex-1 h-screen overflow-y-auto bg-background">
+  <!-- TopNavBar -->
+  <header class="flex justify-between items-center px-margin-mobile md:px-margin-desktop w-full sticky top-0 z-50 h-16 border-b-2 border-secondary-container bg-surface-container-lowest shrink-0">
+    <div class="md:hidden flex items-center gap-stack-sm">
+      <span class="material-symbols-outlined text-primary-fixed cursor-pointer" onclick="openMobileNav()">menu</span>
+      <h1 class="font-headline-md text-headline-md italic tracking-tighter text-primary-fixed uppercase">FITVISION</h1>
+    </div>
+    <div class="hidden md:flex items-center gap-stack-sm">
+      <a href="/dashboard" class="text-secondary hover:text-primary-fixed transition-colors">
+        <span class="material-symbols-outlined">arrow_back</span>
+      </a>
+      <span class="font-label-caps text-label-caps text-secondary uppercase tracking-wider">BACK TO DASHBOARD</span>
+    </div>
+    <div class="flex items-center gap-4">
+      <div class="flex items-center gap-unit text-primary-fixed font-label-caps text-label-caps">
+        <span class="w-2 h-2 bg-primary-fixed animate-pulse"></span> SYSTEM ONLINE
       </div>
-      <!-- Drop zone -->
-      <div class="relative group cursor-pointer" id="drop-zone" onclick="document.getElementById('file-input').click()">
-        <input type="file" id="file-input" class="hidden" accept="video/*" onchange="handleFile(this.files[0])"/>
-        <div class="border-2 border-dashed border-outline-variant group-hover:border-primary/50 group-hover:bg-primary/5 rounded-xl p-xl flex flex-col items-center justify-center gap-md transition-all duration-300 min-h-[240px] bg-surface-container-low/50">
-          <div class="w-16 h-16 rounded-full bg-surface-container flex items-center justify-center border border-white/5 shadow-inner group-hover:scale-110 transition-transform duration-300">
-            <span class="material-symbols-outlined text-[36px] text-primary-fixed-dim" style="font-variation-settings:'wght' 300;">cloud_upload</span>
-          </div>
-          <div class="text-center">
-            <h3 class="font-headline-md text-headline-md text-on-surface mb-xs group-hover:text-primary-fixed-dim transition-colors">Deploy Asset Array</h3>
-            <p class="font-body-md text-body-md text-on-surface-variant">Drag and drop MP4 or MOV payload here, or <span class="text-primary hover:underline">browse files</span></p>
-          </div>
-          <div class="mt-sm px-md py-xs rounded-full bg-surface-container-highest border border-outline-variant/30 font-label-caps text-label-caps text-outline">MAX 100MB / VIDEO SUPPORTED</div>
-        </div>
+    </div>
+  </header>
+
+  <!-- Lab Content -->
+  <div class="flex-1 flex flex-col p-margin-mobile md:p-margin-desktop gap-stack-lg max-w-7xl mx-auto w-full">
+    <!-- Warning Banner -->
+    <div class="bg-error border-2 border-error-container text-on-error p-4 flex flex-col md:flex-row items-start md:items-center gap-4 shadow-[4px_4px_0_0_#93000a]">
+      <span class="material-symbols-outlined text-3xl shrink-0">flag</span>
+      <div>
+        <h2 class="font-headline-md text-headline-md uppercase tracking-wide">REF'S WARNING: STRICT DETECTION ACTIVE</h2>
+        <p class="font-body-md font-bold mt-1">ENSURE FULL BODY VISIBILITY. NO LOOSE CLOTHING. RAW FORM ONLY.</p>
       </div>
-      <!-- File info (hidden by default) -->
-      <div id="file-info" class="hidden mt-md border border-primary/20 bg-primary/5 rounded-lg p-md flex flex-col gap-md relative overflow-hidden">
-        <div class="absolute top-0 left-0 h-full w-[2px] bg-secondary-container shadow-[0_0_10px_#2ff801] animate-[scan_2s_ease-in-out_infinite]" id="scan-line" style="display:none"></div>
-        <div class="flex items-center justify-between z-10">
-          <div class="flex items-center gap-md">
-            <div class="p-sm bg-surface-container rounded-lg border border-white/5"><span class="material-symbols-outlined text-primary">movie</span></div>
-            <div class="flex flex-col">
-              <span class="font-body-md text-body-md text-on-surface font-medium" id="file-name">filename.mp4</span>
-              <span class="font-label-caps text-label-caps text-outline" id="file-size">0 MB</span>
-            </div>
+    </div>
+
+    <!-- Massive Upload Zone -->
+    <section class="texture-concrete bg-surface-container flex flex-col items-center justify-center p-8 md:p-16 border-4 border-dashed border-secondary-container hover:border-primary-fixed transition-colors duration-300 group cursor-pointer min-h-[400px] relative" id="drop-zone" onclick="document.getElementById('file-input').click()">
+      <input type="file" id="file-input" class="hidden" accept="video/*" onchange="handleFile(this.files[0])"/>
+      <div class="relative z-20 bg-surface-container-lowest p-6 border-2 border-secondary mb-8 group-hover:border-primary-fixed group-hover:-translate-y-2 transition-all duration-300 shadow-[8px_8px_0_0_#1a1c1c] group-hover:shadow-[8px_8px_0_0_#c3f400]">
+        <span class="material-symbols-outlined text-6xl md:text-8xl text-secondary group-hover:text-primary-fixed transition-colors">cloud_upload</span>
+      </div>
+      <h1 class="relative z-20 font-display-lg text-[36px] md:text-display-lg text-primary-fixed text-center uppercase tracking-tighter italic mb-4">
+        DROP VIDEO TO ANALYZE
+      </h1>
+      <p class="relative z-20 font-label-caps text-label-caps text-secondary mb-8 uppercase text-center max-w-md">
+        MP4, MOV UP TO 2GB. 60FPS RECOMMENDED FOR FRAME-PERFECT FORM ANALYSIS.
+      </p>
+      <button class="relative z-20 bg-primary-fixed text-on-primary font-label-caps text-label-caps uppercase px-8 py-4 border-2 border-primary-fixed shadow-[4px_4px_0_0_#000] hover:translate-y-1 hover:shadow-[2px_2px_0_0_#000] transition-all active:scale-95">
+        BROWSE FILES
+      </button>
+    </section>
+
+    <!-- File Info (hidden by default) -->
+    <div id="file-info" class="hidden border-2 border-primary-fixed bg-surface-container-low p-4 flex flex-col gap-stack-md relative overflow-hidden">
+      <div class="absolute top-0 left-0 h-full w-[2px] bg-primary-fixed shadow-[0_0_10px_#c3f400] animate-[scan_2s_ease-in-out_infinite]" id="scan-line" style="display:none"></div>
+      <div class="flex items-center justify-between z-10">
+        <div class="flex items-center gap-stack-md">
+          <div class="p-2 bg-surface border-2 border-surface-variant">
+            <span class="material-symbols-outlined text-primary-fixed">movie</span>
           </div>
-          <button class="text-outline hover:text-error transition-colors p-sm" onclick="clearFile()"><span class="material-symbols-outlined text-[20px]">close</span></button>
+          <div class="flex flex-col">
+            <span class="font-label-caps text-label-caps text-on-surface uppercase" id="file-name">FILENAME.MP4</span>
+            <span class="font-label-caps text-label-caps text-secondary" id="file-size">0 MB</span>
+          </div>
         </div>
-        <div class="flex flex-col gap-xs z-10" id="progress-area" style="display:none">
-          <div class="flex justify-between items-end mb-xs">
-            <span class="font-label-caps text-label-caps text-primary uppercase tracking-widest" id="progress-label">Uploading...</span>
-            <span class="font-mono-metrics text-mono-metrics text-secondary-container drop-shadow-[0_0_8px_rgba(47,248,1,0.5)]" id="progress-pct">0%</span>
-          </div>
-          <div class="w-full h-2 bg-surface-container-highest rounded-full overflow-hidden border border-white/5">
-            <div class="h-full bg-primary-container shadow-[0_0_12px_rgba(75,142,255,0.8)] relative transition-all duration-300" id="progress-bar" style="width:0%">
-              <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full animate-[shimmer_1.5s_infinite]"></div>
-            </div>
+        <button class="text-secondary hover:text-error transition-colors p-2 border border-surface-variant hover:border-error" onclick="clearFile()">
+          <span class="material-symbols-outlined text-[20px]">close</span>
+        </button>
+      </div>
+      <div class="flex flex-col gap-unit z-10" id="progress-area" style="display:none">
+        <div class="flex justify-between items-end mb-unit">
+          <span class="font-label-caps text-label-caps text-primary-fixed uppercase tracking-widest" id="progress-label">UPLOADING...</span>
+          <span class="font-stat-value text-stat-value text-primary-fixed" id="progress-pct">0%</span>
+        </div>
+        <div class="w-full h-2 bg-surface-container-highest overflow-hidden border border-surface-variant">
+          <div class="h-full bg-primary-fixed shadow-[0_0_12px_rgba(195,244,0,0.6)] relative transition-all duration-300" id="progress-bar" style="width:0%">
+            <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full animate-[shimmer_1.5s_infinite]"></div>
           </div>
         </div>
       </div>
     </div>
-    <!-- Footer -->
-    <div class="px-xl py-lg border-t border-white/5 bg-surface-container-lowest flex justify-end gap-md">
-      <button onclick="clearFile()" class="px-lg py-sm rounded-lg border border-outline-variant text-on-surface hover:bg-surface-container-high hover:text-white font-body-md text-body-md transition-all duration-200">Clear Data</button>
-      <button id="upload-btn" onclick="executeUpload()" class="px-lg py-sm rounded-lg bg-primary text-on-primary font-body-md text-body-md flex items-center gap-sm hover:bg-primary-fixed transition-all shadow-[0_0_20px_rgba(173,198,255,0.2)] disabled:opacity-40 disabled:cursor-not-allowed" disabled>
-        <span class="material-symbols-outlined text-[18px]">lock</span> Execute Upload
+
+    <!-- Exercise Selection -->
+    <section class="flex flex-col gap-6">
+      <div class="flex items-center gap-4 border-b-2 border-secondary-container pb-2">
+        <span class="material-symbols-outlined text-primary-fixed text-2xl">my_location</span>
+        <h3 class="font-headline-md text-headline-md text-on-surface uppercase italic">SELECT TARGET MOVEMENT</h3>
+      </div>
+      <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+        <!-- Squat Card -->
+        <label class="texture-concrete bg-surface-container-high border-2 border-secondary-container p-6 flex flex-col items-center gap-4 cursor-pointer hover:border-primary-fixed transition-colors group relative overflow-hidden">
+          <input class="sr-only peer" name="exercise-type-radio" type="radio" value="squat" onchange="document.getElementById('exercise-type').value='squat'"/>
+          <div class="absolute inset-0 border-2 border-transparent peer-checked:border-primary-fixed peer-checked:bg-primary-fixed/5 pointer-events-none transition-all z-20"></div>
+          <span class="relative z-20 material-symbols-outlined text-5xl text-secondary group-hover:text-primary-fixed peer-checked:text-primary-fixed transition-colors">fitness_center</span>
+          <span class="relative z-20 font-headline-md text-stat-value text-on-surface group-hover:text-primary-fixed peer-checked:text-primary-fixed uppercase tracking-wider">SQUAT</span>
+          <div class="absolute top-3 right-3 w-4 h-4 border-2 border-secondary peer-checked:border-primary-fixed peer-checked:bg-primary-fixed flex items-center justify-center z-20">
+            <span class="material-symbols-outlined text-[12px] text-on-primary opacity-0 peer-checked:opacity-100">check</span>
+          </div>
+        </label>
+        <!-- Pushup Card -->
+        <label class="texture-concrete bg-surface-container-high border-2 border-secondary-container p-6 flex flex-col items-center gap-4 cursor-pointer hover:border-primary-fixed transition-colors group relative overflow-hidden">
+          <input class="sr-only peer" name="exercise-type-radio" type="radio" value="pushup" onchange="document.getElementById('exercise-type').value='pushup'"/>
+          <div class="absolute inset-0 border-2 border-transparent peer-checked:border-primary-fixed peer-checked:bg-primary-fixed/5 pointer-events-none transition-all z-20"></div>
+          <span class="relative z-20 material-symbols-outlined text-5xl text-secondary group-hover:text-primary-fixed peer-checked:text-primary-fixed transition-colors">sports_martial_arts</span>
+          <span class="relative z-20 font-headline-md text-stat-value text-on-surface group-hover:text-primary-fixed peer-checked:text-primary-fixed uppercase tracking-wider">PUSHUP</span>
+          <div class="absolute top-3 right-3 w-4 h-4 border-2 border-secondary peer-checked:border-primary-fixed peer-checked:bg-primary-fixed flex items-center justify-center z-20">
+            <span class="material-symbols-outlined text-[12px] text-on-primary opacity-0 peer-checked:opacity-100">check</span>
+          </div>
+        </label>
+        <!-- Pull Up Card -->
+        <label class="texture-concrete bg-surface-container-high border-2 border-secondary-container p-6 flex flex-col items-center gap-4 cursor-pointer hover:border-primary-fixed transition-colors group relative overflow-hidden">
+          <input class="sr-only peer" name="exercise-type-radio" type="radio" value="pull_up" onchange="document.getElementById('exercise-type').value='pull_up'"/>
+          <div class="absolute inset-0 border-2 border-transparent peer-checked:border-primary-fixed peer-checked:bg-primary-fixed/5 pointer-events-none transition-all z-20"></div>
+          <span class="relative z-20 material-symbols-outlined text-5xl text-secondary group-hover:text-primary-fixed peer-checked:text-primary-fixed transition-colors">sports_gymnastics</span>
+          <span class="relative z-20 font-headline-md text-stat-value text-on-surface group-hover:text-primary-fixed peer-checked:text-primary-fixed uppercase tracking-wider">PULL UP</span>
+          <div class="absolute top-3 right-3 w-4 h-4 border-2 border-secondary peer-checked:border-primary-fixed peer-checked:bg-primary-fixed flex items-center justify-center z-20">
+            <span class="material-symbols-outlined text-[12px] text-on-primary opacity-0 peer-checked:opacity-100">check</span>
+          </div>
+        </label>
+        <!-- Situp Card -->
+        <label class="texture-concrete bg-surface-container-high border-2 border-secondary-container p-6 flex flex-col items-center gap-4 cursor-pointer hover:border-primary-fixed transition-colors group relative overflow-hidden">
+          <input class="sr-only peer" name="exercise-type-radio" type="radio" value="situp" onchange="document.getElementById('exercise-type').value='situp'"/>
+          <div class="absolute inset-0 border-2 border-transparent peer-checked:border-primary-fixed peer-checked:bg-primary-fixed/5 pointer-events-none transition-all z-20"></div>
+          <span class="relative z-20 material-symbols-outlined text-5xl text-secondary group-hover:text-primary-fixed peer-checked:text-primary-fixed transition-colors">airline_seat_flat</span>
+          <span class="relative z-20 font-headline-md text-stat-value text-on-surface group-hover:text-primary-fixed peer-checked:text-primary-fixed uppercase tracking-wider">SITUP</span>
+          <div class="absolute top-3 right-3 w-4 h-4 border-2 border-secondary peer-checked:border-primary-fixed peer-checked:bg-primary-fixed flex items-center justify-center z-20">
+            <span class="material-symbols-outlined text-[12px] text-on-primary opacity-0 peer-checked:opacity-100">check</span>
+          </div>
+        </label>
+        <!-- Jumping Jack Card -->
+        <label class="texture-concrete bg-surface-container-high border-2 border-secondary-container p-6 flex flex-col items-center gap-4 cursor-pointer hover:border-primary-fixed transition-colors group relative overflow-hidden">
+          <input class="sr-only peer" name="exercise-type-radio" type="radio" value="jumping_jack" onchange="document.getElementById('exercise-type').value='jumping_jack'"/>
+          <div class="absolute inset-0 border-2 border-transparent peer-checked:border-primary-fixed peer-checked:bg-primary-fixed/5 pointer-events-none transition-all z-20"></div>
+          <span class="relative z-20 material-symbols-outlined text-5xl text-secondary group-hover:text-primary-fixed peer-checked:text-primary-fixed transition-colors">directions_run</span>
+          <span class="relative z-20 font-headline-md text-stat-value text-on-surface group-hover:text-primary-fixed peer-checked:text-primary-fixed uppercase tracking-wider">JUMPING JACK</span>
+          <div class="absolute top-3 right-3 w-4 h-4 border-2 border-secondary peer-checked:border-primary-fixed peer-checked:bg-primary-fixed flex items-center justify-center z-20">
+            <span class="material-symbols-outlined text-[12px] text-on-primary opacity-0 peer-checked:opacity-100">check</span>
+          </div>
+        </label>
+      </div>
+      <!-- Hidden select for JS compatibility -->
+      <select class="hidden" id="exercise-type">
+        <option disabled selected value="">Select biometric profile...</option>
+        <option value="squat">SQUAT</option>
+        <option value="pushup">PUSHUP</option>
+        <option value="pull_up">PULL UP</option>
+        <option value="situp">SITUP</option>
+        <option value="jumping_jack">JUMPING JACK</option>
+      </select>
+    </section>
+
+    <!-- Action Buttons -->
+    <div class="flex justify-end gap-stack-md pb-8">
+      <button onclick="clearFile()" class="px-6 py-3 border-2 border-surface-variant text-on-surface hover:bg-surface-container-high hover:border-primary-fixed font-label-caps text-label-caps uppercase transition-all duration-200">
+        CLEAR DATA
+      </button>
+      <button id="upload-btn" onclick="executeUpload()" class="px-6 py-3 bg-primary-fixed text-on-primary font-label-caps text-label-caps uppercase flex items-center gap-stack-sm border-2 border-primary-fixed shadow-[4px_4px_0px_0px_#000] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_#000] transition-all disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-[4px_4px_0px_0px_#000]" disabled>
+        <span class="material-symbols-outlined text-[18px]">lock</span> EXECUTE UPLOAD
       </button>
     </div>
   </div>
 </main>
+
 <script src="/static/js/api.js"></script>
 <script>
 if (!API.requireAuth()) throw 'redirect';
@@ -115,9 +320,9 @@ let selectedFile = null;
 
 // Drag & drop
 const dz = document.getElementById('drop-zone');
-dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('ring-2','ring-primary'); });
-dz.addEventListener('dragleave', () => dz.classList.remove('ring-2','ring-primary'));
-dz.addEventListener('drop', e => { e.preventDefault(); dz.classList.remove('ring-2','ring-primary'); if(e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]); });
+dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('border-primary-fixed'); dz.classList.remove('border-secondary-container'); });
+dz.addEventListener('dragleave', () => { dz.classList.remove('border-primary-fixed'); dz.classList.add('border-secondary-container'); });
+dz.addEventListener('drop', e => { e.preventDefault(); dz.classList.remove('border-primary-fixed'); dz.classList.add('border-secondary-container'); if(e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]); });
 
 function handleFile(file) {
   if (!file || !file.type.startsWith('video/')) { alert('Please select a video file'); return; }
@@ -126,7 +331,7 @@ function handleFile(file) {
   document.getElementById('file-name').textContent = file.name;
   document.getElementById('file-size').textContent = (file.size / 1024 / 1024).toFixed(1) + ' MB';
   document.getElementById('upload-btn').disabled = false;
-  document.getElementById('upload-btn').innerHTML = '<span class="material-symbols-outlined text-[18px]">cloud_upload</span> Execute Upload';
+  document.getElementById('upload-btn').innerHTML = '<span class="material-symbols-outlined text-[18px]">cloud_upload</span> EXECUTE UPLOAD';
 }
 
 function clearFile() {
@@ -134,7 +339,7 @@ function clearFile() {
   document.getElementById('file-info').classList.add('hidden');
   document.getElementById('file-input').value = '';
   document.getElementById('upload-btn').disabled = true;
-  document.getElementById('upload-btn').innerHTML = '<span class="material-symbols-outlined text-[18px]">lock</span> Execute Upload';
+  document.getElementById('upload-btn').innerHTML = '<span class="material-symbols-outlined text-[18px]">lock</span> EXECUTE UPLOAD';
   document.getElementById('progress-area').style.display = 'none';
 }
 
@@ -145,13 +350,12 @@ async function executeUpload() {
 
   const btn = document.getElementById('upload-btn');
   btn.disabled = true;
-  btn.innerHTML = '<span class="material-symbols-outlined text-[18px] animate-spin">progress_activity</span> Processing...';
+  btn.innerHTML = '<span class="material-symbols-outlined text-[18px] animate-spin">progress_activity</span> PROCESSING...';
   
   document.getElementById('progress-area').style.display = 'block';
   document.getElementById('scan-line').style.display = 'block';
   document.getElementById('progress-label').textContent = 'EXTRACTING KINEMATICS...';
 
-  // Simulate progress while uploading
   let pct = 0;
   const interval = setInterval(() => {
     pct = Math.min(pct + Math.random()*15, 95);
@@ -167,7 +371,7 @@ async function executeUpload() {
     document.getElementById('progress-label').textContent = 'UPLOAD COMPLETE — PROCESSING IN BACKGROUND';
     document.getElementById('file-size').textContent = (selectedFile.size/1024/1024).toFixed(1) + ' MB • Uploaded';
 
-    btn.innerHTML = '<span class="material-symbols-outlined text-[18px]">check_circle</span> Uploaded!';
+    btn.innerHTML = '<span class="material-symbols-outlined text-[18px]">check_circle</span> UPLOADED!';
     setTimeout(() => window.location.href = '/dashboard', 2000);
   } catch (err) {
     clearInterval(interval);
@@ -175,8 +379,19 @@ async function executeUpload() {
     document.getElementById('progress-pct').textContent = '';
     document.getElementById('progress-bar').style.width = '0%';
     btn.disabled = false;
-    btn.innerHTML = '<span class="material-symbols-outlined text-[18px]">cloud_upload</span> Retry Upload';
+    btn.innerHTML = '<span class="material-symbols-outlined text-[18px]">cloud_upload</span> RETRY UPLOAD';
   }
+}
+
+function openMobileNav() {
+  document.getElementById('mobile-nav').classList.add('open');
+  document.getElementById('mobile-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeMobileNav() {
+  document.getElementById('mobile-nav').classList.remove('open');
+  document.getElementById('mobile-overlay').classList.remove('open');
+  document.body.style.overflow = '';
 }
 </script>
 </body></html>

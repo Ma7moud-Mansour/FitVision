@@ -1,139 +1,328 @@
 <!DOCTYPE html>
 <html class="dark" lang="en"><head>
 <meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>FitVision - Analysis Result</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<title>FITVISION - Performance Report</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=JetBrains+Mono:wght@400;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
-<style>
-.material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;}
-.custom-scrollbar::-webkit-scrollbar{width:6px}.custom-scrollbar::-webkit-scrollbar-track{background:transparent}.custom-scrollbar::-webkit-scrollbar-thumb{background:#414755;border-radius:4px}
-</style>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <script>
-tailwind.config={darkMode:"class",theme:{extend:{
-colors:{"primary-fixed":"#d8e2ff","outline":"#8b90a0","surface-container":"#201f1f","background":"#131313","on-background":"#e5e2e1","secondary":"#d7ffc5","primary-fixed-dim":"#adc6ff","surface-dim":"#131313","primary":"#adc6ff","surface-container-low":"#1c1b1b","surface-container-high":"#2a2a2a","on-primary":"#002e69","on-surface":"#e5e2e1","surface":"#131313","outline-variant":"#414755","error":"#ffb4ab","surface-container-highest":"#353534","primary-container":"#4b8eff","surface-bright":"#393939","surface-container-lowest":"#0e0e0e","on-surface-variant":"#c1c6d7","secondary-container":"#2ff801","tertiary":"#ffb77d","tertiary-container":"#da7700","on-tertiary-container":"#432100","error-container":"#93000a","on-error-container":"#ffdad6"},
-borderRadius:{DEFAULT:"0.125rem",lg:"0.25rem",xl:"0.5rem",full:"0.75rem"},
-spacing:{xs:"4px",gutter:"20px","container-max":"1280px",base:"4px",sm:"8px",xl:"48px",md:"16px",lg:"24px"},
-fontFamily:{"label-caps":["Geist"],"mono-metrics":["Geist"],"headline-md":["Geist"],"body-md":["Inter"],"headline-lg":["Geist"],"display-xl":["Geist"],"display-xl-mobile":["Geist"]},
-fontSize:{"label-caps":["12px",{lineHeight:"16px",letterSpacing:"0.1em",fontWeight:"600"}],"mono-metrics":["20px",{lineHeight:"24px",letterSpacing:"0.05em",fontWeight:"700"}],"headline-md":["24px",{lineHeight:"32px",fontWeight:"600"}],"body-md":["16px",{lineHeight:"24px",fontWeight:"400"}],"headline-lg":["32px",{lineHeight:"40px",fontWeight:"600"}],"display-xl":["48px",{lineHeight:"56px",letterSpacing:"-0.02em",fontWeight:"700"}],"display-xl-mobile":["36px",{lineHeight:"42px",letterSpacing:"-0.02em",fontWeight:"700"}]}
-}}}
+tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      colors: {
+        "primary-fixed-dim": "#abd600",
+        "on-tertiary": "#313030",
+        "surface-container-low": "#1a1c1c",
+        "surface-tint": "#abd600",
+        "on-secondary-container": "#b5b5b5",
+        "primary-fixed": "#c3f400",
+        "surface-container-lowest": "#0c0f0f",
+        "on-secondary": "#303030",
+        "surface-container-high": "#282a2b",
+        "error-container": "#93000a",
+        "surface-container": "#1e2020",
+        "tertiary": "#ffffff",
+        "secondary": "#c6c6c6",
+        "surface-bright": "#37393a",
+        "primary-container": "#c3f400",
+        "surface": "#121414",
+        "on-error": "#690005",
+        "on-primary": "#283500",
+        "on-primary-container": "#556d00",
+        "outline-variant": "#444933",
+        "outline": "#8e9379",
+        "on-error-container": "#ffdad6",
+        "primary": "#ffffff",
+        "error": "#ffb4ab",
+        "surface-dim": "#121414",
+        "surface-variant": "#333535",
+        "surface-container-highest": "#333535",
+        "background": "#121414",
+        "on-surface": "#e2e2e2",
+        "secondary-container": "#474747",
+        "on-surface-variant": "#c4c9ac",
+        "on-background": "#e2e2e2",
+        "secondary-fixed-dim": "#c6c6c6",
+        "status-good": "#4ade80",
+        "status-warn": "#facc15",
+        "status-bad": "#f87171"
+      },
+      borderRadius: { "DEFAULT": "0px", "lg": "0px", "xl": "0px", "full": "9999px" },
+      spacing: {
+        "unit": "4px", "stack-sm": "8px", "margin-mobile": "16px",
+        "gutter": "16px", "stack-lg": "48px", "margin-desktop": "48px", "stack-md": "24px"
+      },
+      fontFamily: {
+        "body-lg": ["Montserrat"], "label-caps": ["JetBrains Mono"],
+        "display-lg": ["Bebas Neue"], "headline-md": ["Bebas Neue"],
+        "body-md": ["Montserrat"], "headline-lg": ["Bebas Neue"], "stat-value": ["Bebas Neue"]
+      },
+      fontSize: {
+        "body-lg": ["18px", { lineHeight: "28px", letterSpacing: "-0.01em", fontWeight: "600" }],
+        "label-caps": ["12px", { lineHeight: "16px", letterSpacing: "0.1em", fontWeight: "700" }],
+        "display-lg": ["84px", { lineHeight: "80px", letterSpacing: "0.02em", fontWeight: "700" }],
+        "headline-md": ["32px", { lineHeight: "32px", letterSpacing: "0.04em", fontWeight: "700" }],
+        "body-md": ["16px", { lineHeight: "24px", letterSpacing: "0em", fontWeight: "400" }],
+        "headline-lg": ["48px", { lineHeight: "48px", letterSpacing: "0.04em", fontWeight: "700" }],
+        "stat-value": ["24px", { lineHeight: "24px", letterSpacing: "0.05em", fontWeight: "400" }]
+      }
+    }
+  }
+}
 </script>
+<style>
+  .texture-concrete { position: relative; }
+  .texture-concrete::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><filter id="noiseFilter"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%25" height="100%25" filter="url(%23noiseFilter)" opacity="0.05"/></svg>');
+    pointer-events: none;
+    z-index: 10;
+  }
+  .texture-grid {
+    background-size: 20px 20px;
+    background-image: linear-gradient(to right, rgba(51, 51, 51, 0.2) 1px, transparent 1px), linear-gradient(to bottom, rgba(51, 51, 51, 0.2) 1px, transparent 1px);
+  }
+  @keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+  .animate-blink { animation: blink 1.5s infinite; }
+  .custom-scrollbar::-webkit-scrollbar{width:6px}
+  .custom-scrollbar::-webkit-scrollbar-track{background:#121414}
+  .custom-scrollbar::-webkit-scrollbar-thumb{background:#333535}
+  .mobile-nav { transform: translateX(-100%); transition: transform 0.3s ease; }
+  .mobile-nav.open { transform: translateX(0); }
+  .mobile-overlay { opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
+  .mobile-overlay.open { opacity: 1; pointer-events: auto; }
+</style>
 </head>
-<body class="bg-background text-on-background font-body-md text-body-md antialiased min-h-screen flex">
-<!-- SideNav -->
-<nav class="bg-surface-container-lowest/90 backdrop-blur-2xl border-r border-white/5 h-screen w-64 fixed left-0 top-0 hidden lg:flex flex-col z-50">
-  <div class="flex flex-col h-full py-lg px-md gap-sm">
-    <div class="mb-xl px-sm">
-      <h1 class="font-headline-md text-headline-md text-primary">FitVision</h1>
-      <p class="font-label-caps text-label-caps text-outline mt-xs">Analysis View</p>
-    </div>
-    <div class="flex-1 flex flex-col gap-xs">
-      <a class="flex items-center gap-md px-md py-sm rounded-lg text-outline hover:text-on-surface hover:bg-surface-container-high transition-colors cursor-pointer" href="/dashboard"><span class="material-symbols-outlined">dashboard</span><span class="font-label-caps text-label-caps">Overview</span></a>
-      <a class="flex items-center gap-md px-md py-sm rounded-lg text-outline hover:text-on-surface hover:bg-surface-container-high transition-colors cursor-pointer" href="/upload"><span class="material-symbols-outlined">cloud_upload</span><span class="font-label-caps text-label-caps">Upload Video</span></a>
-      <a class="flex items-center gap-md px-md py-sm rounded-lg bg-primary-container/20 text-primary border-r-2 border-primary cursor-pointer" href="#"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">psychology</span><span class="font-label-caps text-label-caps">AI Coach</span></a>
-    </div>
-    <div class="mt-auto pt-lg border-t border-white/5 flex flex-col gap-xs">
-      <a onclick="API.logout()" class="flex items-center gap-md px-md py-sm rounded-lg text-outline hover:text-on-surface hover:bg-surface-container-high transition-colors cursor-pointer"><span class="material-symbols-outlined">logout</span><span class="font-label-caps text-label-caps">Logout</span></a>
-    </div>
+<body class="bg-surface-container-lowest text-on-surface font-body-md h-screen overflow-hidden flex flex-col md:flex-row">
+
+<!-- Mobile TopNav -->
+<nav class="md:hidden flex justify-between items-center px-margin-mobile w-full sticky top-0 z-50 bg-surface-container-lowest border-b-2 border-secondary-container h-16">
+  <div class="flex items-center gap-stack-sm">
+    <span class="material-symbols-outlined text-primary-fixed cursor-pointer" onclick="openMobileNav()">menu</span>
+    <div class="font-headline-md text-headline-md italic tracking-tighter text-primary-fixed uppercase">FITVISION</div>
+  </div>
+  <div class="flex items-center gap-stack-sm">
+    <a href="/dashboard" class="text-secondary hover:text-primary-fixed transition-colors">
+      <span class="material-symbols-outlined">arrow_back</span>
+    </a>
   </div>
 </nav>
-<!-- Main -->
-<main class="flex-1 ml-0 lg:ml-64 w-full min-h-screen p-gutter md:p-lg lg:p-xl max-w-[1600px] mx-auto overflow-y-auto">
-  <header class="mb-lg flex flex-col md:flex-row md:items-end justify-between gap-md">
-    <div>
-      <a href="/dashboard" class="flex items-center gap-sm text-outline mb-xs hover:text-primary transition-colors"><span class="material-symbols-outlined text-[16px]">arrow_back</span><span class="font-label-caps text-label-caps tracking-widest uppercase">Session History</span></a>
-      <h2 class="font-display-xl-mobile md:font-display-xl text-display-xl-mobile md:text-display-xl text-primary font-bold tracking-tighter">Analysis Result</h2>
+
+<!-- Mobile Sidebar Overlay -->
+<div id="mobile-overlay" class="mobile-overlay fixed inset-0 bg-black/70 z-[60] md:hidden" onclick="closeMobileNav()"></div>
+<nav id="mobile-nav" class="mobile-nav fixed top-0 left-0 h-screen w-64 bg-surface-container-lowest border-r-2 border-secondary-container flex flex-col py-stack-md z-[70] md:hidden">
+  <div class="px-4 mb-stack-lg flex items-center justify-between">
+    <div class="flex items-center gap-stack-sm">
+      <div class="w-10 h-10 border-2 border-primary-fixed flex items-center justify-center bg-surface">
+        <span class="material-symbols-outlined text-primary-fixed" style="font-variation-settings:'FILL' 1;">fitness_center</span>
+      </div>
+      <div>
+        <div class="font-headline-md text-headline-md italic tracking-tighter text-primary-fixed uppercase leading-none">FITVISION</div>
+        <div class="font-label-caps text-label-caps uppercase text-secondary">ELITE PERFORMANCE</div>
+      </div>
     </div>
-    <div id="status-badge" class="flex items-center gap-sm bg-surface-container/50 backdrop-blur-md border border-white/10 rounded-full px-md py-xs">
-      <span class="material-symbols-outlined text-secondary" style="font-variation-settings:'FILL' 1;">verified</span>
-      <span class="font-label-caps text-label-caps text-on-surface">Loading...</span>
+    <span class="material-symbols-outlined text-secondary hover:text-primary-fixed cursor-pointer" onclick="closeMobileNav()">close</span>
+  </div>
+  <div class="flex-1 flex flex-col gap-1">
+    <a class="flex items-center gap-stack-sm px-4 py-3 text-secondary hover:text-primary-fixed transition-colors" href="/dashboard">
+      <span class="material-symbols-outlined">dashboard</span>
+      <span class="font-label-caps text-label-caps uppercase">OVERVIEW</span>
+    </a>
+    <a class="flex items-center gap-stack-sm px-4 py-3 text-secondary hover:text-primary-fixed transition-colors" href="/upload">
+      <span class="material-symbols-outlined">cloud_upload</span>
+      <span class="font-label-caps text-label-caps uppercase">UPLOAD VIDEO</span>
+    </a>
+    <a class="flex items-center gap-stack-sm px-4 py-3 bg-primary-container text-on-primary-container border-r-4 border-primary-fixed font-bold" href="#">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">psychology</span>
+      <span class="font-label-caps text-label-caps uppercase">AI COACH</span>
+    </a>
+  </div>
+  <div class="mt-auto px-4 flex flex-col gap-1 border-t-2 border-secondary-container pt-stack-sm">
+    <a onclick="API.logout()" class="flex items-center gap-stack-sm px-4 py-3 text-secondary hover:text-primary-fixed transition-colors cursor-pointer">
+      <span class="material-symbols-outlined">logout</span>
+      <span class="font-label-caps text-label-caps uppercase">LOGOUT</span>
+    </a>
+  </div>
+</nav>
+
+<!-- Desktop SideNav -->
+<aside class="hidden md:flex flex-col h-screen w-64 bg-surface-container-lowest border-r-2 border-secondary-container py-stack-md flex-shrink-0">
+  <div class="px-gutter mb-stack-lg flex items-center gap-stack-sm">
+    <div class="w-12 h-12 bg-surface-container-high border-2 border-primary-fixed flex items-center justify-center flex-shrink-0">
+      <span class="material-symbols-outlined text-primary-fixed" style="font-variation-settings:'FILL' 1;">fitness_center</span>
+    </div>
+    <div>
+      <div class="font-headline-md text-headline-md italic tracking-tighter text-primary-fixed uppercase leading-none">FITVISION</div>
+      <div class="font-label-caps text-label-caps uppercase text-secondary-fixed-dim">ELITE PERFORMANCE</div>
+    </div>
+  </div>
+  <div class="px-gutter mb-stack-md">
+    <a href="/upload" class="block w-full bg-primary-fixed text-on-primary font-label-caps text-label-caps uppercase py-3 px-4 text-center border-2 border-primary-fixed shadow-[4px_4px_0px_0px_#000] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_#000] transition-all">UPLOAD SESSION</a>
+  </div>
+  <nav class="flex-1 flex flex-col gap-1">
+    <a class="flex items-center gap-stack-sm px-4 py-3 text-secondary hover:text-primary-fixed transition-colors" href="/dashboard">
+      <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">dashboard</span>
+      <span class="font-label-caps text-label-caps uppercase">OVERVIEW</span>
+    </a>
+    <a class="flex items-center gap-stack-sm px-4 py-3 text-secondary hover:text-primary-fixed transition-colors" href="/upload">
+      <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">cloud_upload</span>
+      <span class="font-label-caps text-label-caps uppercase">UPLOAD VIDEO</span>
+    </a>
+    <a class="flex items-center gap-stack-sm px-4 py-3 bg-primary-container text-on-primary-container border-r-4 border-primary-fixed font-bold" href="#">
+      <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">psychology</span>
+      <span class="font-label-caps text-label-caps uppercase text-on-primary-container">AI COACH</span>
+    </a>
+    <a class="flex items-center gap-stack-sm px-4 py-3 text-secondary hover:text-primary-fixed transition-colors" href="#">
+      <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">settings</span>
+      <span class="font-label-caps text-label-caps uppercase">SETTINGS</span>
+    </a>
+  </nav>
+  <div class="mt-auto px-gutter flex flex-col gap-1 border-t-2 border-secondary-container pt-stack-sm">
+    <a class="flex items-center gap-stack-sm px-4 py-3 text-secondary hover:text-primary-fixed transition-colors" href="#">
+      <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">help</span>
+      <span class="font-label-caps text-label-caps uppercase">SUPPORT</span>
+    </a>
+    <a onclick="API.logout()" class="flex items-center gap-stack-sm px-4 py-3 text-secondary hover:text-primary-fixed transition-colors cursor-pointer">
+      <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">logout</span>
+      <span class="font-label-caps text-label-caps uppercase">LOGOUT</span>
+    </a>
+  </div>
+</aside>
+
+<!-- Main Content Canvas -->
+<main class="flex-1 overflow-y-auto bg-surface p-margin-mobile md:p-margin-desktop texture-grid flex flex-col gap-stack-lg">
+  <!-- Header -->
+  <header class="flex flex-col gap-stack-sm border-b-2 border-secondary-container pb-stack-md">
+    <div class="flex items-center gap-stack-sm">
+      <a class="text-secondary hover:text-primary-fixed transition-colors" href="/dashboard">
+        <span class="material-symbols-outlined">arrow_back</span>
+      </a>
+      <h1 class="font-headline-lg text-[36px] md:text-headline-lg italic uppercase text-primary-fixed leading-none">PERFORMANCE REPORT</h1>
+    </div>
+    <div class="flex items-center justify-between">
+      <div class="font-label-caps text-label-caps text-secondary-fixed-dim uppercase" id="fb-exercise">LOADING...</div>
+      <div id="status-badge" class="flex items-center gap-stack-sm bg-surface-container-highest border border-primary-fixed px-3 py-1">
+        <span class="material-symbols-outlined text-primary-fixed text-[16px] animate-spin">progress_activity</span>
+        <span class="font-label-caps text-label-caps text-primary-fixed uppercase">LOADING...</span>
+      </div>
     </div>
   </header>
 
   <!-- Wrong Exercise Alert -->
-  <div id="wrong-exe-alert" class="hidden mb-lg bg-error-container/20 border border-error text-error p-md rounded-xl flex items-center gap-md">
-    <span class="material-symbols-outlined text-[24px]">warning</span>
-    <p class="font-body-md"><strong>Warning:</strong> <span id="wrong-exe-text">Our AI detected you were performing a different exercise.</span></p>
+  <div id="wrong-exe-alert" class="hidden bg-error-container border-2 border-error text-on-error-container p-4 flex items-center gap-stack-md">
+    <span class="material-symbols-outlined text-[24px] text-error">warning</span>
+    <p class="font-label-caps text-label-caps"><strong>WARNING:</strong> <span id="wrong-exe-text">Our AI detected you were performing a different exercise.</span></p>
   </div>
 
-  <!-- Metrics -->
-  <section class="grid grid-cols-2 md:grid-cols-4 gap-sm md:gap-md mb-lg">
-    <div class="bg-surface-container-low/60 backdrop-blur-xl border border-white/5 rounded-xl p-md flex flex-col justify-between">
-      <span class="font-label-caps text-label-caps text-outline uppercase tracking-widest mb-sm">Total Reps</span>
-      <div class="flex items-baseline gap-xs"><span id="m-reps" class="font-mono-metrics text-[32px] font-bold text-on-surface">-</span></div>
+  <!-- Metrics Strip -->
+  <section class="grid grid-cols-2 md:grid-cols-4 gap-gutter">
+    <div class="bg-surface-container-low border-2 border-secondary-container p-4 texture-concrete relative overflow-hidden">
+      <div class="relative z-20">
+        <span class="font-label-caps text-label-caps text-secondary uppercase tracking-widest mb-2 block">TOTAL REPS</span>
+        <div class="flex items-baseline gap-unit">
+          <span id="m-reps" class="font-display-lg text-[48px] font-bold text-primary-fixed leading-none">-</span>
+        </div>
+      </div>
     </div>
-    <div class="bg-surface-container-low/60 backdrop-blur-xl border border-white/5 rounded-xl p-md flex flex-col justify-between relative overflow-hidden">
-      <div class="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent pointer-events-none"></div>
-      <span class="font-label-caps text-label-caps text-outline uppercase tracking-widest mb-sm">Form Quality</span>
-      <div class="flex items-baseline gap-xs"><span id="m-form" class="font-mono-metrics text-[32px] font-bold text-primary">-</span></div>
+    <div class="bg-surface-container-low border-2 border-secondary-container p-4 texture-concrete relative overflow-hidden">
+      <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary-fixed to-transparent opacity-40 z-20"></div>
+      <div class="relative z-20">
+        <span class="font-label-caps text-label-caps text-secondary uppercase tracking-widest mb-2 block">FORM QUALITY</span>
+        <div class="flex items-baseline gap-unit">
+          <span id="m-form" class="font-display-lg text-[48px] font-bold text-primary-fixed leading-none">-</span>
+        </div>
+      </div>
     </div>
-    <div class="bg-surface-container-low/60 backdrop-blur-xl border border-white/5 rounded-xl p-md flex flex-col justify-between">
-      <span class="font-label-caps text-label-caps text-outline uppercase tracking-widest mb-sm">Duration</span>
-      <div class="flex items-baseline gap-xs"><span id="m-duration" class="font-mono-metrics text-[32px] font-bold text-on-surface">-</span><span class="font-label-caps text-label-caps text-outline">SEC</span></div>
+    <div class="bg-surface-container-low border-2 border-secondary-container p-4 texture-concrete relative overflow-hidden">
+      <div class="relative z-20">
+        <span class="font-label-caps text-label-caps text-secondary uppercase tracking-widest mb-2 block">DURATION</span>
+        <div class="flex items-baseline gap-unit">
+          <span id="m-duration" class="font-display-lg text-[48px] font-bold text-on-surface leading-none">-</span>
+          <span class="font-label-caps text-label-caps text-secondary">SEC</span>
+        </div>
+      </div>
     </div>
-    <div class="bg-surface-container-low/60 backdrop-blur-xl border border-white/5 rounded-xl p-md flex flex-col justify-between">
-      <span class="font-label-caps text-label-caps text-outline uppercase tracking-widest mb-sm">Status</span>
-      <span id="m-status" class="font-mono-metrics text-mono-metrics text-secondary">-</span>
+    <div class="bg-surface-container-low border-2 border-secondary-container p-4 texture-concrete relative overflow-hidden">
+      <div class="relative z-20">
+        <span class="font-label-caps text-label-caps text-secondary uppercase tracking-widest mb-2 block">STATUS</span>
+        <span id="m-status" class="font-stat-value text-stat-value text-primary-fixed uppercase">-</span>
+      </div>
     </div>
   </section>
 
-  <!-- Video + Feedback -->
-  <div class="grid grid-cols-1 xl:grid-cols-3 gap-md lg:gap-lg">
-    <section class="xl:col-span-2 flex flex-col gap-md">
-      <div class="relative w-full aspect-video bg-surface-container-highest border border-white/10 rounded-xl overflow-hidden shadow-[0_0_30px_rgba(0,0,0,0.5)]">
-        <video id="processed-video" class="absolute inset-0 w-full h-full object-contain bg-black" controls>
-          <source src="" type="video/mp4"/>
-          Your browser does not support video playback.
-        </video>
-        <!-- Fallback when no video -->
-        <div id="no-video" class="absolute inset-0 flex items-center justify-center bg-surface-container-highest">
-          <div class="text-center">
-            <span class="material-symbols-outlined text-[64px] text-outline/30">videocam_off</span>
-            <p class="font-body-md text-outline mt-md">Processed video will appear here</p>
+  <!-- Bento Grid: Video + Sidebar -->
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+    <!-- Video Player -->
+    <div class="lg:col-span-8 bg-surface-container-low border-2 border-secondary-container relative aspect-video flex items-center justify-center overflow-hidden texture-concrete">
+      <video id="processed-video" class="absolute inset-0 w-full h-full object-contain bg-black z-20" controls>
+        <source src="" type="video/mp4"/>
+        Your browser does not support video playback.
+      </video>
+      <!-- Fallback when no video -->
+      <div id="no-video" class="absolute inset-0 flex items-center justify-center bg-surface-container-highest z-20">
+        <div class="text-center">
+          <span class="material-symbols-outlined text-[64px] text-secondary/30" style="font-variation-settings:'FILL' 0;">videocam_off</span>
+          <p class="font-label-caps text-label-caps text-secondary mt-stack-md uppercase">PROCESSED VIDEO WILL APPEAR HERE</p>
+        </div>
+      </div>
+      <!-- HUD overlay -->
+      <div class="absolute top-4 left-4 flex items-center gap-2 bg-surface-container-highest border border-primary-fixed px-3 py-1 z-30 pointer-events-none">
+        <div class="w-3 h-3 bg-status-bad rounded-full animate-blink shadow-[0_0_8px_rgba(248,113,113,0.8)]"></div>
+        <span class="font-label-caps text-label-caps text-primary-fixed uppercase tracking-widest">REC.ANALYSIS</span>
+      </div>
+    </div>
+
+    <!-- Scoreboard Sidebar -->
+    <div class="lg:col-span-4 flex flex-col gap-gutter">
+      <!-- Session Info Card -->
+      <div class="bg-surface-container-low border-2 border-secondary-container p-6 texture-concrete relative overflow-hidden">
+        <div class="relative z-20">
+          <div class="flex items-center justify-between mb-4 border-b border-surface-variant pb-2">
+            <h3 class="font-headline-md text-[24px] italic uppercase text-on-surface">SESSION INFO</h3>
+            <span class="material-symbols-outlined text-primary-fixed" style="font-variation-settings:'FILL' 1;">analytics</span>
+          </div>
+          <p id="feedback-text" class="font-body-md text-on-surface-variant text-[14px] leading-relaxed mb-4">
+            Analysis data will be displayed once processing completes.
+          </p>
+          <div class="pt-2 border-t border-surface-variant grid grid-cols-2 gap-stack-sm">
+            <div>
+              <p class="font-label-caps text-[10px] text-secondary mb-unit uppercase">STARTED</p>
+              <p id="fb-started" class="font-label-caps text-label-caps text-primary-fixed">-</p>
+            </div>
           </div>
         </div>
-        <!-- HUD overlay -->
-        <div class="absolute top-md left-md bg-surface-container-lowest/80 backdrop-blur-md border border-white/10 px-sm py-xs rounded flex items-center gap-sm pointer-events-none">
-          <div class="w-2 h-2 rounded-full bg-error animate-pulse shadow-[0_0_8px_rgba(255,180,171,0.8)]"></div>
-          <span class="font-mono-metrics text-[12px] tracking-widest text-on-surface">REC.ANALYSIS</span>
-        </div>
-      </div>
-    </section>
-
-    <aside class="xl:col-span-1 flex flex-col gap-md">
-      <div class="bg-surface-container/60 backdrop-blur-xl border border-white/5 rounded-xl p-md flex flex-col">
-        <h3 class="font-headline-md text-[20px] text-on-surface mb-sm flex items-center gap-sm">
-          <span class="material-symbols-outlined text-primary">analytics</span> Session Info
-        </h3>
-        <p id="feedback-text" class="font-body-md text-on-surface-variant text-[14px] leading-relaxed mb-md">
-          Analysis data will be displayed once processing completes.
-        </p>
-        <div class="mt-auto pt-sm border-t border-white/5 grid grid-cols-2 gap-sm">
-          <div><p class="font-label-caps text-[10px] text-outline mb-xs">EXERCISE</p><p id="fb-exercise" class="font-body-md text-[14px] text-primary font-medium">-</p></div>
-          <div><p class="font-label-caps text-[10px] text-outline mb-xs">STARTED</p><p id="fb-started" class="font-body-md text-[14px] text-on-surface-variant font-medium">-</p></div>
-        </div>
       </div>
 
-      <!-- AI Insights -->
-      <div class="bg-primary/10 border border-primary/20 rounded-xl p-md flex flex-col">
-        <h4 class="font-label-caps text-label-caps text-primary tracking-widest mb-sm flex items-center gap-xs">
-          <span class="material-symbols-outlined text-[16px]">psychology</span> Coach's Tips
-        </h4>
-        <p id="ai-insights-text" class="font-body-md text-on-surface-variant text-[14px]">
+      <!-- Coach's Clipboard (AI Insights) -->
+      <div class="bg-primary-fixed text-on-primary p-4 border-2 border-black shadow-[4px_4px_0px_0px_#000] relative">
+        <div class="flex items-center gap-2 mb-2 border-b border-black/20 pb-1">
+          <span class="material-symbols-outlined text-[18px]">psychology</span>
+          <span class="font-label-caps text-label-caps uppercase font-bold">COACH'S CLIPBOARD</span>
+        </div>
+        <p id="ai-insights-text" class="font-label-caps text-label-caps leading-tight">
           Waiting for analysis...
         </p>
       </div>
 
-      <!-- Rep by Rep Analysis -->
-      <div class="bg-surface-container/40 backdrop-blur-xl border border-white/5 rounded-xl flex-1 flex flex-col overflow-hidden">
-        <div class="p-md border-b border-white/5 bg-surface-container-low/50">
-          <h4 class="font-label-caps text-label-caps text-outline tracking-widest">Rep-by-Rep Analysis</h4>
+      <!-- Rep-by-Rep Breakdown -->
+      <div class="bg-surface-container-low border-2 border-secondary-container flex-1 flex flex-col texture-concrete overflow-hidden relative">
+        <div class="bg-surface-container border-b-2 border-secondary-container p-3 flex justify-between items-center relative z-20">
+          <h3 class="font-label-caps text-label-caps uppercase text-secondary-fixed-dim">REP BREAKDOWN</h3>
+          <span class="material-symbols-outlined text-secondary text-[16px]">format_list_numbered</span>
         </div>
-        <div id="details-list" class="overflow-y-auto flex-1 p-sm flex flex-col gap-xs custom-scrollbar">
-          <div class="text-center text-outline py-lg font-body-md">Loading...</div>
+        <div id="details-list" class="overflow-y-auto flex-1 flex flex-col custom-scrollbar relative z-20">
+          <div class="text-center text-secondary py-stack-lg font-label-caps text-label-caps uppercase">LOADING...</div>
         </div>
       </div>
-    </aside>
+    </div>
   </div>
 </main>
 
@@ -155,12 +344,14 @@ async function loadResults() {
     
     const mStatus = document.getElementById('m-status');
     if (mStatus) {
-      mStatus.textContent = s.status.charAt(0).toUpperCase() + s.status.slice(1);
-      mStatus.className = 'font-mono-metrics text-mono-metrics ' + (s.status==='completed'?'text-secondary':s.status==='failed'?'text-error':'text-primary');
+      mStatus.textContent = s.status.toUpperCase();
+      if (s.status === 'completed') mStatus.className = 'font-stat-value text-stat-value text-status-good uppercase';
+      else if (s.status === 'failed') mStatus.className = 'font-stat-value text-stat-value text-status-bad uppercase';
+      else mStatus.className = 'font-stat-value text-stat-value text-primary-fixed uppercase';
     }
 
     const fbExercise = document.getElementById('fb-exercise');
-    if (fbExercise) fbExercise.textContent = s.exercise_type.toUpperCase();
+    if (fbExercise) fbExercise.textContent = `SESSION: ${s.exercise_type.toUpperCase()} / DATE: ${new Date(s.started_at).toLocaleDateString()} / STATUS: ${s.status.toUpperCase()}`;
     
     const fbStarted = document.getElementById('fb-started');
     if (fbStarted) fbStarted.textContent = new Date(s.started_at).toLocaleString();
@@ -168,11 +359,14 @@ async function loadResults() {
     const badge = document.getElementById('status-badge');
     if (badge) {
       if (s.status === 'completed') {
-        badge.innerHTML = '<span class="material-symbols-outlined text-secondary" style="font-variation-settings:\'FILL\' 1;">verified</span><span class="font-label-caps text-label-caps text-on-surface">Analysis Complete</span>';
+        badge.innerHTML = '<span class="material-symbols-outlined text-status-good text-[16px]" style="font-variation-settings:\'FILL\' 1;">verified</span><span class="font-label-caps text-label-caps text-status-good uppercase">ANALYSIS COMPLETE</span>';
+        badge.className = 'flex items-center gap-stack-sm bg-surface-container-highest border border-status-good px-3 py-1';
       } else if (s.status === 'processing') {
-        badge.innerHTML = '<span class="material-symbols-outlined text-primary animate-spin">progress_activity</span><span class="font-label-caps text-label-caps text-on-surface">Processing...</span>';
+        badge.innerHTML = '<span class="material-symbols-outlined text-primary-fixed text-[16px] animate-spin">progress_activity</span><span class="font-label-caps text-label-caps text-primary-fixed uppercase">PROCESSING...</span>';
+        badge.className = 'flex items-center gap-stack-sm bg-surface-container-highest border border-primary-fixed px-3 py-1';
       } else {
-        badge.innerHTML = '<span class="material-symbols-outlined text-error" style="font-variation-settings:\'FILL\' 1;">error</span><span class="font-label-caps text-label-caps text-error">Failed</span>';
+        badge.innerHTML = '<span class="material-symbols-outlined text-status-bad text-[16px]" style="font-variation-settings:\'FILL\' 1;">error</span><span class="font-label-caps text-label-caps text-status-bad uppercase">FAILED</span>';
+        badge.className = 'flex items-center gap-stack-sm bg-surface-container-highest border border-status-bad px-3 py-1';
       }
     }
 
@@ -181,11 +375,8 @@ async function loadResults() {
       const videoEl = document.getElementById('processed-video');
       const noVideoEl = document.getElementById('no-video');
       if (videoEl && noVideoEl) {
-        // Fix backslashes and ensure correct absolute URL
         const cleanPath = s.processed_video_path.replace(/\\/g, '/');
         const videoUrl = window.location.origin + (cleanPath.startsWith('/') ? '' : '/') + cleanPath;
-        
-        // Only set and load if the src is different, to prevent reloading continuously
         if (videoEl.src !== videoUrl) {
             videoEl.src = videoUrl;
             videoEl.load();
@@ -205,55 +396,60 @@ async function loadResults() {
       }
     }
 
-    // Detailed Analysis
+    // Wrong exercise alert
     const wrongExeAlert = document.getElementById('wrong-exe-alert');
     if (wrongExeAlert && s.wrong_exercise_detected) {
       wrongExeAlert.classList.remove('hidden');
     }
     
+    // Form score
     if (s.avg_form_score !== null && s.avg_form_score !== undefined) {
       const formPct = Math.round(s.avg_form_score * 100);
       const formEl = document.getElementById('m-form');
       if (formEl) {
         formEl.textContent = formPct + '%';
-        formEl.className = 'font-mono-metrics text-[32px] font-bold ' + (formPct > 80 ? 'text-secondary' : formPct > 50 ? 'text-tertiary' : 'text-error');
+        if (formPct > 80) formEl.className = 'font-display-lg text-[48px] font-bold text-status-good leading-none';
+        else if (formPct > 50) formEl.className = 'font-display-lg text-[48px] font-bold text-status-warn leading-none';
+        else formEl.className = 'font-display-lg text-[48px] font-bold text-status-bad leading-none';
       }
     }
 
+    // AI Insights
     const aiInsightsText = document.getElementById('ai-insights-text');
     if (aiInsightsText && s.ai_insights) {
       aiInsightsText.textContent = s.ai_insights;
     }
 
-    // Reps Table
+    // Reps Breakdown
     const dl = document.getElementById('details-list');
     if (dl) {
       if (s.reps && s.reps.length > 0) {
         dl.innerHTML = s.reps.map(r => {
           const isCorrect = r.is_valid;
-          const color = isCorrect ? 'text-secondary' : 'text-error';
-          const icon = isCorrect ? 'check_circle' : 'warning';
           const depth = r.min_angle !== null && r.min_angle !== undefined ? Math.round(r.min_angle) + '°' : 'N/A';
           const score = r.form_score !== null && r.form_score !== undefined ? Math.round(r.form_score * 100) + '%' : '-';
-          return `
-            <div class="bg-surface-container p-sm rounded-lg border border-white/5 flex flex-col gap-xs">
-              <div class="flex items-center justify-between">
-                <span class="font-label-caps text-[12px] text-on-surface">Rep ${r.rep_number}</span>
-                <div class="flex items-center gap-xs ${color}">
-                  <span class="material-symbols-outlined text-[14px]">${icon}</span>
-                  <span class="font-label-caps text-[10px] uppercase">${isCorrect ? 'Correct' : 'Invalid'}</span>
-                </div>
-              </div>
-              <div class="flex items-center justify-between mt-xs">
-                <span class="font-label-caps text-[10px] text-outline">Depth: ${depth}</span>
-                <span class="font-label-caps text-[10px] text-outline">Score: ${score}</span>
-              </div>
-              <p class="font-body-md text-[12px] text-on-surface-variant mt-xs">${r.feedback || '-'}</p>
+          const scorePct = r.form_score !== null ? Math.round(r.form_score * 100) : 0;
+          
+          let borderColor, textColor, icon, bgColor;
+          if (!isCorrect) {
+            borderColor = 'border-l-status-bad'; textColor = 'text-status-bad'; icon = 'error'; bgColor = 'bg-status-bad/20 border-status-bad';
+          } else if (scorePct >= 80) {
+            borderColor = 'border-l-status-good'; textColor = 'text-status-good'; icon = 'check_circle'; bgColor = 'bg-surface border-status-good';
+          } else {
+            borderColor = 'border-l-status-warn'; textColor = 'text-status-warn'; icon = 'warning'; bgColor = 'bg-surface border-status-warn';
+          }
+          
+          return `<div class="flex items-center gap-4 p-4 border-b border-surface-variant hover:bg-surface-container transition-colors border-l-4 ${borderColor}">
+            <div class="w-8 h-8 flex items-center justify-center ${bgColor} border font-stat-value text-stat-value ${textColor}">${r.rep_number}</div>
+            <div class="flex-1">
+              <div class="font-label-caps text-label-caps text-on-surface uppercase">DEPTH: ${depth} / SCORE: ${score}</div>
+              <div class="font-label-caps text-[10px] text-secondary">${r.feedback || '-'}</div>
             </div>
-          `;
+            <span class="material-symbols-outlined ${textColor}" style="font-variation-settings:'FILL' 1;">${icon}</span>
+          </div>`;
         }).join('');
       } else if (s.status === 'completed') {
-        dl.innerHTML = '<div class="text-center text-outline py-lg font-body-md">No reps detected</div>';
+        dl.innerHTML = '<div class="text-center text-secondary py-stack-lg font-label-caps text-label-caps uppercase">NO REPS DETECTED</div>';
       }
     }
 
@@ -264,5 +460,16 @@ async function loadResults() {
 }
 
 loadResults();
+
+function openMobileNav() {
+  document.getElementById('mobile-nav').classList.add('open');
+  document.getElementById('mobile-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeMobileNav() {
+  document.getElementById('mobile-nav').classList.remove('open');
+  document.getElementById('mobile-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
 </script>
 </body></html>
