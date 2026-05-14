@@ -1,3 +1,9 @@
+"""
+VideoProcessor — Core video processing pipeline.
+──────────────────────────────────────────────────
+Handles frame skipping, pose extraction, evaluator execution,
+overlay drawing, and result aggregation.
+"""
 import cv2
 import os
 import logging
@@ -61,9 +67,10 @@ class VideoProcessor:
             )
 
             while cap.isOpened():
-                # الـ Optimization: لو الفريم مش هيتعالج، بس نعمل grab() بدون decode
+                # FIX E1: الـ Optimization مع فحص نتيجة grab() لمنع الـ Infinite Loop
                 if frame_count % skip_interval != 0:
-                    cap.grab()  # ~4x faster — advances without decoding
+                    if not cap.grab():  # Break if grab() fails (corrupted/EOF)
+                        break
                     frame_count += 1
                     continue
 
@@ -83,6 +90,9 @@ class VideoProcessor:
                     )
 
                     # ج. تنفيذ لوجيك التمرين (Squat, Pushup, etc.)
+                    # FIX E3: Use processed_count for accurate timestamp calculation
+                    evaluator.current_frame = processed_count
+                    evaluator.current_timestamp_ms = int((processed_count / target_fps) * 1000)
                     last_analysis = evaluator.evaluate(
                         results.pose_landmarks.landmark,
                         width,
@@ -103,11 +113,30 @@ class VideoProcessor:
                 f"Frames processed: {processed_count}/{total_frames}"
             )
 
+            # ─── Aggregate Results ───
+            rep_data = evaluator.rep_data
+            avg_score = None
+            if rep_data:
+                valid_scores = [r["form_score"] for r in rep_data
+                                if r["form_score"] is not None]
+                avg_score = float(sum(valid_scores) / len(valid_scores)) if valid_scores else None
+
+            # ─── Generate Data-Driven AI Insights ───
+            ai_insights = self._generate_ai_insights(
+                evaluator, rep_data, avg_score, exercise_type
+            )
+
+            wrong_exe = evaluator.wrong_exercise_detected
+
             return {
                 "output_path": output_path,
                 "total_reps": last_analysis.get("counter", 0),
                 "frames_processed": processed_count,
                 "duration_seconds": round(processed_count / target_fps, 2),
+                "rep_data": rep_data,
+                "avg_form_score": avg_score,
+                "wrong_exercise_detected": wrong_exe,
+                "ai_insights": ai_insights
             }
 
         except Exception as e:
@@ -117,6 +146,76 @@ class VideoProcessor:
             cap.release()
             if out:
                 out.release()
+            # FIX E2: Release PoseEngine resources to prevent memory leak
+            try:
+                self.engine.pose.close()
+            except Exception:
+                pass
+
+    def _generate_ai_insights(self, evaluator, rep_data: list,
+                              avg_score: float | None,
+                              exercise_type: str) -> str:
+        """Generate specific, data-driven coaching insights based on rep analysis."""
+        if evaluator.wrong_exercise_detected:
+            ratio_pct = int(evaluator.wrong_exercise_ratio * 100)
+            return (
+                f"⚠️ Our AI detected you may be performing a different exercise "
+                f"({ratio_pct}% of frames disagreed). Please ensure you selected "
+                f"the correct exercise type."
+            )
+
+        if not rep_data:
+            return "No reps were detected. Make sure the full body is visible in the frame."
+
+        # Count valid vs invalid reps
+        valid_count = sum(1 for r in rep_data if r["is_valid"])
+        invalid_count = len(rep_data) - valid_count
+        total = len(rep_data)
+
+        insights = []
+
+        # Overall assessment
+        if avg_score is not None:
+            if avg_score >= 0.85:
+                insights.append(f"🏆 Excellent form! Average score: {int(avg_score * 100)}%.")
+            elif avg_score >= 0.65:
+                insights.append(f"👍 Good effort! Average score: {int(avg_score * 100)}%. Room for improvement.")
+            else:
+                insights.append(f"💪 Keep practicing! Average score: {int(avg_score * 100)}%. Focus on depth and control.")
+
+        # Valid/Invalid breakdown
+        if invalid_count > 0:
+            insights.append(
+                f"📊 {valid_count}/{total} reps had full range of motion. "
+                f"{invalid_count} rep(s) were partial or incomplete."
+            )
+
+        # Identify the weakest rep
+        scored_reps = [r for r in rep_data if r["form_score"] is not None]
+        if scored_reps:
+            weakest = min(scored_reps, key=lambda r: r["form_score"])
+            if weakest["form_score"] < 0.6:
+                insights.append(
+                    f"📉 Weakest rep: #{weakest['rep_number']} "
+                    f"(Score: {int(weakest['form_score'] * 100)}%). "
+                    f"{weakest.get('feedback', '')}"
+                )
+
+        # Trend analysis (are they getting tired?)
+        if len(scored_reps) >= 3:
+            first_half = scored_reps[:len(scored_reps) // 2]
+            second_half = scored_reps[len(scored_reps) // 2:]
+            first_avg = sum(r["form_score"] for r in first_half) / len(first_half)
+            second_avg = sum(r["form_score"] for r in second_half) / len(second_half)
+            if second_avg < first_avg - 0.15:
+                insights.append(
+                    "📉 Your form declined in the second half. "
+                    "Consider reducing reps or taking longer rest periods."
+                )
+            elif second_avg > first_avg + 0.1:
+                insights.append("📈 Your form improved as you warmed up. Great consistency!")
+
+        return " ".join(insights) if insights else "Great form! Keep it up."
 
     def _draw_ui(self, frame, analysis, exercise_type):
         """دالة مساعدة لرسم الـ Feedback والـ Counter على الفيديو"""

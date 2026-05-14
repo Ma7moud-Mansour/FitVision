@@ -46,6 +46,10 @@ def _process_in_background(session_id, video_path: str, exercise_type: str):
                 processed_video_path=result["output_path"],
                 total_reps=result["total_reps"],
                 duration_seconds=result["duration_seconds"],
+                avg_form_score=result["avg_form_score"],
+                ai_insights=result["ai_insights"],
+                wrong_exercise_detected=result["wrong_exercise_detected"],
+                rep_data=result["rep_data"],
             )
             logger.info(f"Session {session_id} completed — {result['total_reps']} reps")
         else:
@@ -113,7 +117,7 @@ async def upload_video(
     )
 
 
-@router.get("/session/{session_id}/status", response_model=WorkoutSessionResponse)
+@router.get("/session/{session_id}/status", response_model=WorkoutDetailResponse)
 def get_session_status(
     session_id: uuid.UUID,
     current_user: User = Depends(get_current_user),

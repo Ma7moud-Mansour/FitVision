@@ -55,6 +55,10 @@ def update_workout_session_results(
     processed_video_path: str,
     total_reps: int,
     duration_seconds: float,
+    avg_form_score: float = None,
+    ai_insights: str = None,
+    wrong_exercise_detected: bool = False,
+    rep_data: list = None,
     status: str = "completed",
 ) -> WorkoutSession | None:
     session = db.query(WorkoutSession).filter(WorkoutSession.id == session_id).first()
@@ -63,8 +67,27 @@ def update_workout_session_results(
     session.processed_video_path = processed_video_path
     session.total_reps = total_reps
     session.duration_seconds = duration_seconds
+    session.avg_form_score = avg_form_score
+    session.ai_insights = ai_insights
+    session.wrong_exercise_detected = wrong_exercise_detected
     session.status = status
     session.completed_at = datetime.utcnow()
+
+    if rep_data:
+        for r in rep_data:
+            db.add(RepData(
+                session_id=session_id,
+                rep_number=r["rep_number"],
+                min_angle=r.get("min_angle"),
+                max_angle=r.get("max_angle"),
+                rom=r.get("rom"),
+                form_score=r.get("form_score"),
+                feedback=r.get("feedback"),
+                is_valid=r.get("is_valid", True),
+                start_frame=r.get("start_frame"),
+                end_frame=r.get("end_frame"),
+                duration_ms=r.get("duration_ms")
+            ))
     db.commit()
     db.refresh(session)
     return session

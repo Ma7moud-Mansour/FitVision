@@ -45,6 +45,10 @@ class WorkoutSession(Base):
     duration_seconds = Column(Float, nullable=True)
     frames_processed = Column(Integer, nullable=True)
 
+    # ML Insights
+    ai_insights = Column(Text, nullable=True)
+    wrong_exercise_detected = Column(Boolean, default=False)
+
     # Timestamps
     started_at = Column(DateTime, default=datetime.utcnow)
     completed_at = Column(DateTime, nullable=True)

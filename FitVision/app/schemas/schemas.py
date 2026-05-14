@@ -40,6 +40,8 @@ class WorkoutSessionResponse(BaseModel):
     total_reps: int
     avg_form_score: Optional[float]
     duration_seconds: Optional[float]
+    ai_insights: Optional[str] = None
+    wrong_exercise_detected: bool = False
     started_at: datetime
     completed_at: Optional[datetime]
 
@@ -61,6 +63,9 @@ class RepDataResponse(BaseModel):
     form_score: Optional[float]
     feedback: Optional[str]
     is_valid: bool
+    start_frame: Optional[int] = None
+    end_frame: Optional[int] = None
+    duration_ms: Optional[int] = None
 
     model_config = {"from_attributes": True}
 

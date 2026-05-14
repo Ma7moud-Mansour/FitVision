@@ -50,6 +50,12 @@ fontSize:{"label-caps":["12px",{lineHeight:"16px",letterSpacing:"0.1em",fontWeig
     </div>
   </header>
 
+  <!-- Wrong Exercise Alert -->
+  <div id="wrong-exe-alert" class="hidden mb-lg bg-error-container/20 border border-error text-error p-md rounded-xl flex items-center gap-md">
+    <span class="material-symbols-outlined text-[24px]">warning</span>
+    <p class="font-body-md"><strong>Warning:</strong> <span id="wrong-exe-text">Our AI detected you were performing a different exercise.</span></p>
+  </div>
+
   <!-- Metrics -->
   <section class="grid grid-cols-2 md:grid-cols-4 gap-sm md:gap-md mb-lg">
     <div class="bg-surface-container-low/60 backdrop-blur-xl border border-white/5 rounded-xl p-md flex flex-col justify-between">
@@ -58,8 +64,8 @@ fontSize:{"label-caps":["12px",{lineHeight:"16px",letterSpacing:"0.1em",fontWeig
     </div>
     <div class="bg-surface-container-low/60 backdrop-blur-xl border border-white/5 rounded-xl p-md flex flex-col justify-between relative overflow-hidden">
       <div class="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent pointer-events-none"></div>
-      <span class="font-label-caps text-label-caps text-outline uppercase tracking-widest mb-sm">Exercise Type</span>
-      <span id="m-type" class="font-mono-metrics text-[24px] font-bold text-primary uppercase">-</span>
+      <span class="font-label-caps text-label-caps text-outline uppercase tracking-widest mb-sm">Form Quality</span>
+      <div class="flex items-baseline gap-xs"><span id="m-form" class="font-mono-metrics text-[32px] font-bold text-primary">-</span></div>
     </div>
     <div class="bg-surface-container-low/60 backdrop-blur-xl border border-white/5 rounded-xl p-md flex flex-col justify-between">
       <span class="font-label-caps text-label-caps text-outline uppercase tracking-widest mb-sm">Duration</span>
@@ -108,9 +114,20 @@ fontSize:{"label-caps":["12px",{lineHeight:"16px",letterSpacing:"0.1em",fontWeig
         </div>
       </div>
 
+      <!-- AI Insights -->
+      <div class="bg-primary/10 border border-primary/20 rounded-xl p-md flex flex-col">
+        <h4 class="font-label-caps text-label-caps text-primary tracking-widest mb-sm flex items-center gap-xs">
+          <span class="material-symbols-outlined text-[16px]">psychology</span> Coach's Tips
+        </h4>
+        <p id="ai-insights-text" class="font-body-md text-on-surface-variant text-[14px]">
+          Waiting for analysis...
+        </p>
+      </div>
+
+      <!-- Rep by Rep Analysis -->
       <div class="bg-surface-container/40 backdrop-blur-xl border border-white/5 rounded-xl flex-1 flex flex-col overflow-hidden">
         <div class="p-md border-b border-white/5 bg-surface-container-low/50">
-          <h4 class="font-label-caps text-label-caps text-outline tracking-widest">Session Details</h4>
+          <h4 class="font-label-caps text-label-caps text-outline tracking-widest">Rep-by-Rep Analysis</h4>
         </div>
         <div id="details-list" class="overflow-y-auto flex-1 p-sm flex flex-col gap-xs custom-scrollbar">
           <div class="text-center text-outline py-lg font-body-md">Loading...</div>
@@ -130,60 +147,115 @@ async function loadResults() {
   try {
     const s = await API.getSessionStatus(sessionId);
     
-    document.getElementById('m-reps').textContent = s.total_reps || 0;
-    document.getElementById('m-type').textContent = s.exercise_type || '-';
-    document.getElementById('m-duration').textContent = s.duration_seconds ? Math.round(s.duration_seconds) : '-';
-    document.getElementById('m-status').textContent = s.status.charAt(0).toUpperCase() + s.status.slice(1);
-    document.getElementById('m-status').className = 'font-mono-metrics text-mono-metrics ' + (s.status==='completed'?'text-secondary':s.status==='failed'?'text-error':'text-primary');
+    const mReps = document.getElementById('m-reps');
+    if (mReps) mReps.textContent = s.total_reps || 0;
+    
+    const mDuration = document.getElementById('m-duration');
+    if (mDuration) mDuration.textContent = s.duration_seconds ? Math.round(s.duration_seconds) : '-';
+    
+    const mStatus = document.getElementById('m-status');
+    if (mStatus) {
+      mStatus.textContent = s.status.charAt(0).toUpperCase() + s.status.slice(1);
+      mStatus.className = 'font-mono-metrics text-mono-metrics ' + (s.status==='completed'?'text-secondary':s.status==='failed'?'text-error':'text-primary');
+    }
 
-    document.getElementById('fb-exercise').textContent = s.exercise_type.toUpperCase();
-    document.getElementById('fb-started').textContent = new Date(s.started_at).toLocaleString();
+    const fbExercise = document.getElementById('fb-exercise');
+    if (fbExercise) fbExercise.textContent = s.exercise_type.toUpperCase();
+    
+    const fbStarted = document.getElementById('fb-started');
+    if (fbStarted) fbStarted.textContent = new Date(s.started_at).toLocaleString();
 
     const badge = document.getElementById('status-badge');
-    if (s.status === 'completed') {
-      badge.innerHTML = '<span class="material-symbols-outlined text-secondary" style="font-variation-settings:\'FILL\' 1;">verified</span><span class="font-label-caps text-label-caps text-on-surface">Analysis Complete</span>';
-    } else if (s.status === 'processing') {
-      badge.innerHTML = '<span class="material-symbols-outlined text-primary animate-spin">progress_activity</span><span class="font-label-caps text-label-caps text-on-surface">Processing...</span>';
-    } else {
-      badge.innerHTML = '<span class="material-symbols-outlined text-error" style="font-variation-settings:\'FILL\' 1;">error</span><span class="font-label-caps text-label-caps text-error">Failed</span>';
+    if (badge) {
+      if (s.status === 'completed') {
+        badge.innerHTML = '<span class="material-symbols-outlined text-secondary" style="font-variation-settings:\'FILL\' 1;">verified</span><span class="font-label-caps text-label-caps text-on-surface">Analysis Complete</span>';
+      } else if (s.status === 'processing') {
+        badge.innerHTML = '<span class="material-symbols-outlined text-primary animate-spin">progress_activity</span><span class="font-label-caps text-label-caps text-on-surface">Processing...</span>';
+      } else {
+        badge.innerHTML = '<span class="material-symbols-outlined text-error" style="font-variation-settings:\'FILL\' 1;">error</span><span class="font-label-caps text-label-caps text-error">Failed</span>';
+      }
     }
 
     // Video
     if (s.processed_video_path) {
       const videoEl = document.getElementById('processed-video');
-      videoEl.src = '/' + s.processed_video_path.replace(/\\/g, '/');
-      document.getElementById('no-video').style.display = 'none';
+      const noVideoEl = document.getElementById('no-video');
+      if (videoEl && noVideoEl) {
+        // Fix backslashes and ensure correct absolute URL
+        const cleanPath = s.processed_video_path.replace(/\\/g, '/');
+        const videoUrl = window.location.origin + (cleanPath.startsWith('/') ? '' : '/') + cleanPath;
+        
+        // Only set and load if the src is different, to prevent reloading continuously
+        if (videoEl.src !== videoUrl) {
+            videoEl.src = videoUrl;
+            videoEl.load();
+        }
+        noVideoEl.style.display = 'none';
+      }
     }
 
     // Feedback
-    if (s.status === 'completed') {
-      document.getElementById('feedback-text').textContent = `Workout completed with ${s.total_reps} total repetitions over ${Math.round(s.duration_seconds || 0)} seconds. The ${s.exercise_type} session has been analyzed and the processed video is available for review.`;
-    } else if (s.status === 'processing') {
-      document.getElementById('feedback-text').textContent = 'Your video is currently being processed. This page will auto-refresh when analysis is complete.';
-      setTimeout(loadResults, 5000);
+    const feedbackText = document.getElementById('feedback-text');
+    if (feedbackText) {
+      if (s.status === 'completed') {
+        feedbackText.textContent = `Workout completed with ${s.total_reps} total repetitions over ${Math.round(s.duration_seconds || 0)} seconds. The ${s.exercise_type} session has been analyzed and the processed video is available for review.`;
+      } else if (s.status === 'processing') {
+        feedbackText.textContent = 'Your video is currently being processed. This page will auto-refresh when analysis is complete.';
+        setTimeout(loadResults, 5000);
+      }
     }
 
-    // Details
+    // Detailed Analysis
+    const wrongExeAlert = document.getElementById('wrong-exe-alert');
+    if (wrongExeAlert && s.wrong_exercise_detected) {
+      wrongExeAlert.classList.remove('hidden');
+    }
+    
+    if (s.avg_form_score !== null && s.avg_form_score !== undefined) {
+      const formPct = Math.round(s.avg_form_score * 100);
+      const formEl = document.getElementById('m-form');
+      if (formEl) {
+        formEl.textContent = formPct + '%';
+        formEl.className = 'font-mono-metrics text-[32px] font-bold ' + (formPct > 80 ? 'text-secondary' : formPct > 50 ? 'text-tertiary' : 'text-error');
+      }
+    }
+
+    const aiInsightsText = document.getElementById('ai-insights-text');
+    if (aiInsightsText && s.ai_insights) {
+      aiInsightsText.textContent = s.ai_insights;
+    }
+
+    // Reps Table
     const dl = document.getElementById('details-list');
-    const details = [
-      { label: 'Exercise', value: s.exercise_type.toUpperCase(), icon: 'fitness_center' },
-      { label: 'Total Reps', value: s.total_reps || 0, icon: 'repeat' },
-      { label: 'Duration', value: (s.duration_seconds || 0) + 's', icon: 'timer' },
-      { label: 'Status', value: s.status, icon: 'info' },
-      { label: 'Started', value: new Date(s.started_at).toLocaleString(), icon: 'schedule' },
-      { label: 'Completed', value: s.completed_at ? new Date(s.completed_at).toLocaleString() : 'Pending', icon: 'check_circle' },
-    ];
-    dl.innerHTML = details.map(d => `
-      <div class="bg-surface-container p-sm rounded-lg border border-white/5 flex items-center gap-sm">
-        <div class="w-8 h-8 rounded bg-surface border border-white/10 flex items-center justify-center">
-          <span class="material-symbols-outlined text-[16px] text-outline">${d.icon}</span>
-        </div>
-        <div class="flex-1">
-          <span class="font-label-caps text-[10px] text-outline">${d.label}</span>
-          <p class="font-body-md text-[14px] text-on-surface">${d.value}</p>
-        </div>
-      </div>
-    `).join('');
+    if (dl) {
+      if (s.reps && s.reps.length > 0) {
+        dl.innerHTML = s.reps.map(r => {
+          const isCorrect = r.is_valid;
+          const color = isCorrect ? 'text-secondary' : 'text-error';
+          const icon = isCorrect ? 'check_circle' : 'warning';
+          const depth = r.min_angle !== null && r.min_angle !== undefined ? Math.round(r.min_angle) + '°' : 'N/A';
+          const score = r.form_score !== null && r.form_score !== undefined ? Math.round(r.form_score * 100) + '%' : '-';
+          return `
+            <div class="bg-surface-container p-sm rounded-lg border border-white/5 flex flex-col gap-xs">
+              <div class="flex items-center justify-between">
+                <span class="font-label-caps text-[12px] text-on-surface">Rep ${r.rep_number}</span>
+                <div class="flex items-center gap-xs ${color}">
+                  <span class="material-symbols-outlined text-[14px]">${icon}</span>
+                  <span class="font-label-caps text-[10px] uppercase">${isCorrect ? 'Correct' : 'Invalid'}</span>
+                </div>
+              </div>
+              <div class="flex items-center justify-between mt-xs">
+                <span class="font-label-caps text-[10px] text-outline">Depth: ${depth}</span>
+                <span class="font-label-caps text-[10px] text-outline">Score: ${score}</span>
+              </div>
+              <p class="font-body-md text-[12px] text-on-surface-variant mt-xs">${r.feedback || '-'}</p>
+            </div>
+          `;
+        }).join('');
+      } else if (s.status === 'completed') {
+        dl.innerHTML = '<div class="text-center text-outline py-lg font-body-md">No reps detected</div>';
+      }
+    }
 
   } catch (err) {
     console.error(err);
