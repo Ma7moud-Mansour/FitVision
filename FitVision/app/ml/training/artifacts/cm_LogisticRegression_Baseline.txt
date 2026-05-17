@@ -1,0 +1,8 @@
+Confusion Matrix — LogisticRegression_Baseline
+============================================================
+              jumping_jack  pull_up  push_up  situp  squat
+jumping_jack          2856      607       31     46    240
+pull_up                555     2533      110    457    180
+push_up                 63       59     3227     86     37
+situp                   50      326       46   2773    140
+squat                  733      519       99    212    800

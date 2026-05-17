@@ -1,0 +1,8 @@
+Confusion Matrix — XGBoost
+============================================================
+              jumping_jack  pull_up  push_up  situp  squat
+jumping_jack          3615       83        4      7     71
+pull_up                 68     3691       13     20     43
+push_up                 13        5     3440      7      7
+situp                    3       28        8   3272     24
+squat                   74       36       18     35   2200

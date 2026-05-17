@@ -18,6 +18,7 @@ _MODELS_DIR = os.path.join(os.path.dirname(__file__), "..", "models")
 _MODEL_PATH = os.path.join(_MODELS_DIR, "workout_classifier.pkl")
 _ENCODER_PATH = os.path.join(_MODELS_DIR, "label_encoder.pkl")
 _FEATURE_COLS_PATH = os.path.join(_MODELS_DIR, "feature_columns.pkl")
+_SCALER_PATH = os.path.join(_MODELS_DIR, "scaler.pkl")
 
 # ─── Module-level cache (loaded once, shared across all evaluators) ───
 _model_cache = {}
@@ -31,12 +32,22 @@ def _load_artifacts():
             _model_cache["model"] = None
             _model_cache["encoder"] = None
             _model_cache["feature_cols"] = None
+            _model_cache["scaler"] = None
             return
 
         logger.info(f"Loading ML model from {_MODEL_PATH}")
         _model_cache["model"] = joblib.load(_MODEL_PATH)
         _model_cache["encoder"] = joblib.load(_ENCODER_PATH)
         _model_cache["feature_cols"] = joblib.load(_FEATURE_COLS_PATH)
+
+        # Load scaler if available (backward-compatible)
+        if os.path.exists(_SCALER_PATH):
+            _model_cache["scaler"] = joblib.load(_SCALER_PATH)
+            logger.info("StandardScaler loaded for inference.")
+        else:
+            _model_cache["scaler"] = None
+            logger.warning("scaler.pkl not found — running without scaling.")
+
         logger.info(f"Model loaded — classes: {list(_model_cache['encoder'].classes_)}")
 
 
@@ -131,10 +142,19 @@ class MLEvaluatorMixin:
         feat_dict = self.extract_distance_features(landmarks)
         feature_vector = np.array([feat_dict.get(col, 0.0) for col in feature_cols]).reshape(1, -1)
 
+        # Apply scaler if available (must match training pipeline)
+        scaler = _model_cache.get("scaler")
+        if scaler is not None:
+            feature_vector = scaler.transform(feature_vector)
+
         # Predict
         pred_encoded = model.predict(feature_vector)[0]
-        probabilities = model.predict_proba(feature_vector)[0]
-        confidence = float(probabilities.max())
+        try:
+            probabilities = model.predict_proba(feature_vector)[0]
+            confidence = float(probabilities.max())
+        except AttributeError:
+            # LinearSVC and some models lack predict_proba
+            confidence = 1.0
         pred_label = encoder.inverse_transform([pred_encoded])[0]
 
         return pred_label, confidence
