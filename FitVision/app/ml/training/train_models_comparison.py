@@ -29,7 +29,8 @@ import seaborn as sns
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import LabelEncoder, StandardScaler
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split, StratifiedGroupKFold, cross_val_score
+from sklearn.pipeline import make_pipeline
 from sklearn.metrics import (
     classification_report,
     confusion_matrix,
@@ -85,6 +86,7 @@ def load_and_merge() -> tuple:
     -------
     X : np.ndarray          — feature matrix (n_samples, n_features)
     y : np.ndarray          — string class labels
+    groups : np.ndarray     — video IDs for grouping
     feature_cols : list[str] — ordered column names
     """
     logger.info(f"Loading xyz_distances from {XYZ_PATH}")
@@ -106,12 +108,13 @@ def load_and_merge() -> tuple:
 
     X = merged[feature_cols].values.astype(np.float64)
     y = merged["class"].values
+    groups = merged["vid_id"].values
 
     logger.info(f"Features: {len(feature_cols)} columns")
     logger.info(f"Target classes: {np.unique(y)}")
     logger.info(f"NaN count: {np.isnan(X).sum()}")
 
-    return X, y, feature_cols
+    return X, y, groups, feature_cols
 
 
 # ═══════════════════════════════════════════════════════════════════════
@@ -191,13 +194,13 @@ def _save_confusion_matrix(
     logger.info(f"  Saved heatmap  → {png_path}")
 
 
-def train_and_evaluate(X, y, feature_cols):
+def train_and_evaluate(X, y, groups, feature_cols):
     """
     Full multi-model pipeline:
       1. Encode labels
-      2. 80/20 stratified split (random_state=42)
+      2. Video-level stratified split (StratifiedGroupKFold) to prevent leakage
       3. StandardScaler — fit on train only (no leakage)
-      4. Train each model, collect advanced metrics
+      4. Train each model, collect advanced metrics & 5-fold CV
       5. Export confusion matrices + comparison table
       6. Save the best model for production
     """
@@ -210,20 +213,24 @@ def train_and_evaluate(X, y, feature_cols):
     class_names = list(le.classes_)
     logger.info(f"Label mapping: {dict(zip(le.classes_, le.transform(le.classes_)))}")
 
-    # ── 2. Train / Test split — strict 80/20 ──
-    X_train, X_test, y_train, y_test = train_test_split(
-        X, y_encoded,
-        test_size=0.20,
-        random_state=RANDOM_STATE,
-        stratify=y_encoded,
-    )
+    # ── 2. Train / Test split — Video-Level (No Leakage) ──
+    cv = StratifiedGroupKFold(n_splits=5, shuffle=True, random_state=RANDOM_STATE)
+    train_idx, test_idx = next(cv.split(X, y_encoded, groups))
+
+    X_train, X_test = X[train_idx], X[test_idx]
+    y_train, y_test = y_encoded[train_idx], y_encoded[test_idx]
+    
     logger.info(f"Train: {X_train.shape[0]} samples | Test: {X_test.shape[0]} samples")
 
     # ── 3. Robust preprocessing — no leakage ──
-    scaler = StandardScaler()
+    from sklearn.preprocessing import StandardScaler, Normalizer
+    from sklearn.pipeline import make_pipeline
+    
+    # L2 Normalization makes features scale-invariant (fixes video resolution mismatch)
+    scaler = make_pipeline(Normalizer(norm='l2'), StandardScaler())
     X_train_scaled = scaler.fit_transform(X_train)   # fit ONLY on train
     X_test_scaled  = scaler.transform(X_test)         # transform test
-    logger.info("StandardScaler fitted on training set only (no leakage)")
+    logger.info("Normalizer + StandardScaler fitted on training set only (no leakage)")
 
     # ── 4. Model training & evaluation ──
     models = _build_models()
@@ -271,12 +278,20 @@ def train_and_evaluate(X, y, feature_cols):
         r_wt  = recall_score(y_test, y_pred, average="weighted", zero_division=0)
         f1_wt = f1_score(y_test, y_pred, average="weighted", zero_division=0)
 
+        # ── Cross-Validation to evaluate generalization ──
+        logger.info(f"Running 5-Fold StratifiedGroupKFold CV for {name}...")
+        pipeline = make_pipeline(StandardScaler(), estimator)
+        cv_scores = cross_val_score(pipeline, X, y_encoded, groups=groups, cv=cv, scoring="f1_macro", n_jobs=-1)
+        cv_f1_macro = cv_scores.mean()
+        logger.info(f"CV Macro F1: {cv_f1_macro:.4f} (+/- {cv_scores.std():.4f})")
+
         results.append({
             "Model": name,
             "Accuracy": round(acc, 4),
             "Macro Precision": round(p_mac, 4),
             "Macro Recall": round(r_mac, 4),
             "Macro F1-Score": round(f1_mac, 4),
+            "CV Macro F1": round(cv_f1_macro, 4),
             "Weighted Precision": round(p_wt, 4),
             "Weighted Recall": round(r_wt, 4),
             "Weighted F1-Score": round(f1_wt, 4),
@@ -299,12 +314,12 @@ def train_and_evaluate(X, y, feature_cols):
     logger.info(f"Comparison table saved → {table_path}")
 
     # ── 6. Determine the winner and export for production ──
-    best_idx = comparison_df["Macro F1-Score"].idxmax()
+    best_idx = comparison_df["CV Macro F1"].idxmax()
     best_name = comparison_df.loc[best_idx, "Model"]
-    best_f1   = comparison_df.loc[best_idx, "Macro F1-Score"]
+    best_f1   = comparison_df.loc[best_idx, "CV Macro F1"]
 
     logger.info("\n" + "═" * 60)
-    logger.info(f"🏆  WINNER: {best_name}  (Macro F1 = {best_f1})")
+    logger.info(f"🏆  WINNER: {best_name}  (CV Macro F1 = {best_f1})")
     logger.info("═" * 60)
 
     best_estimator = trained_models[best_name]
@@ -329,6 +344,6 @@ def train_and_evaluate(X, y, feature_cols):
 # Entry-point
 # ═══════════════════════════════════════════════════════════════════════
 if __name__ == "__main__":
-    X, y, feature_cols = load_and_merge()
-    best_model, le, scaler, feature_cols = train_and_evaluate(X, y, feature_cols)
+    X, y, groups, feature_cols = load_and_merge()
+    best_model, le, scaler, feature_cols = train_and_evaluate(X, y, groups, feature_cols)
     logger.info("\n✅ Multi-model comparison pipeline complete!")

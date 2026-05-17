@@ -41,7 +41,7 @@ class ExerciseEvaluator(ABC):
         self._WRONG_EXERCISE_RATIO_THRESHOLD = 0.30  # Flag if >30% frames disagree
 
     @abstractmethod
-    def evaluate(self, landmarks, w, h, engine):
+    def evaluate(self, results, w, h, engine):
         """اللوجيك الخاص بكل تمرينة هيتكتب هنا"""
         pass
 

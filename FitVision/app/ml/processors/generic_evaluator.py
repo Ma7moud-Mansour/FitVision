@@ -19,8 +19,11 @@ class GenericMLEvaluator(MLEvaluatorMixin, ExerciseEvaluator):
         self.expected_exercise = expected_exercise
         self._prev_confidence = 0.0
 
-    def evaluate(self, landmarks, w, h, engine):
-        ml_label, ml_confidence = self.predict_exercise(landmarks)
+    def evaluate(self, results, w, h, engine):
+        landmarks = results.pose_landmarks.landmark
+        world_landmarks = results.pose_world_landmarks.landmark if results.pose_world_landmarks else landmarks
+        
+        ml_label, ml_confidence = self.predict_exercise(world_landmarks, 1, 1)
         ml_info = {"ml_label": ml_label, "ml_confidence": round(ml_confidence, 3)}
 
         # ─── Wrong exercise tracking (percentage-based) ───

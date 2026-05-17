@@ -28,6 +28,7 @@ app/ml/models/*.pth
 app/ml/models/*.pkl
 app/ml/training/logs/
 .ipynb_checkpoints/
+Dataset/
 
 # Operating System Files
 .DS_Store

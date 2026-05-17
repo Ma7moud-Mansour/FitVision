@@ -2,13 +2,13 @@ Classification Report — LogisticRegression (Baseline)
 ============================================================
               precision    recall  f1-score   support
 
-jumping_jack       0.67      0.76      0.71      3780
-     pull_up       0.63      0.66      0.64      3835
-     push_up       0.92      0.93      0.92      3472
-       situp       0.78      0.83      0.80      3335
-       squat       0.57      0.34      0.43      2363
+jumping_jack       0.65      0.80      0.72      3796
+     pull_up       0.59      0.59      0.59      3824
+     push_up       0.88      0.89      0.89      3494
+       situp       0.73      0.75      0.74      3316
+       squat       0.47      0.26      0.33      2369
 
-    accuracy                           0.73     16785
-   macro avg       0.71      0.70      0.70     16785
-weighted avg       0.72      0.73      0.72     16785
+    accuracy                           0.69     16799
+   macro avg       0.66      0.66      0.65     16799
+weighted avg       0.67      0.69      0.67     16799
 

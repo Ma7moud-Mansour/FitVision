@@ -46,7 +46,9 @@ def get_evaluator(exercise_type: str, use_ml: bool = True):
             try:
                 # Smart registry entries can be classes or lambdas
                 return factory() if callable(factory) else factory
-            except Exception:
+            except Exception as e:
+                import logging
+                logging.error(f"Failed to instantiate smart evaluator: {e}")
                 pass
 
     cls = _HEURISTIC_REGISTRY.get(key)

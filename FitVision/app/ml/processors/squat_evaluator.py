@@ -2,7 +2,9 @@ import numpy as np
 from .base_evaluator import ExerciseEvaluator
 
 class SquatEvaluator(ExerciseEvaluator):
-    def evaluate(self, landmarks, w, h, engine):
+    def evaluate(self, results, w, h, engine):
+        landmarks = results.pose_landmarks.landmark
+        
         # 1. تحديد النقط (Hip, Knee, Ankle)
         hip = [landmarks[engine.mp_pose.PoseLandmark.LEFT_HIP.value].x * w,
                landmarks[engine.mp_pose.PoseLandmark.LEFT_HIP.value].y * h]

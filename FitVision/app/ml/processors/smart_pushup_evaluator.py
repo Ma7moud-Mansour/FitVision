@@ -18,7 +18,7 @@ ML_CONFIDENCE_THRESHOLD = 0.6
 # Biomechanics thresholds (elbow angle at bottom of pushup)
 FULL_REP_ANGLE = 90        # Below this = full depth
 PARTIAL_REP_ANGLE = 110    # Between FULL and PARTIAL = partial rep
-STANDING_ANGLE = 160       # Above this = arms extended (top position)
+STANDING_ANGLE = 140       # Above this = arms extended (top position)
 
 # Alignment
 MAX_ALIGNMENT_ERROR = 0.15  # Normalized hip-shoulder Y distance threshold
@@ -31,9 +31,12 @@ class SmartPushupEvaluator(MLEvaluatorMixin, ExerciseEvaluator):
     alignment check, and form grading.
     """
 
-    def evaluate(self, landmarks, w, h, engine):
+    def evaluate(self, results, w, h, engine):
+        landmarks = results.pose_landmarks.landmark
+        world_landmarks = results.pose_world_landmarks.landmark if results.pose_world_landmarks else landmarks
+        
         # ─── ML Prediction ───
-        ml_label, ml_confidence = self.predict_exercise(landmarks)
+        ml_label, ml_confidence = self.predict_exercise(world_landmarks, 1, 1)
         ml_info = {"ml_label": ml_label, "ml_confidence": round(ml_confidence, 3)}
 
         # ─── Wrong exercise tracking (percentage-based) ───

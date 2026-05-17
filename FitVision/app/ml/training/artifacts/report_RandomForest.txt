@@ -2,13 +2,13 @@ Classification Report — RandomForest
 ============================================================
               precision    recall  f1-score   support
 
-jumping_jack       0.93      0.91      0.92      3780
-     pull_up       0.92      0.93      0.92      3835
-     push_up       0.98      0.99      0.98      3472
-       situp       0.95      0.97      0.96      3335
-       squat       0.89      0.86      0.88      2363
+jumping_jack       0.79      0.80      0.80      3796
+     pull_up       0.73      0.77      0.75      3824
+     push_up       0.89      0.91      0.90      3494
+       situp       0.91      0.87      0.89      3316
+       squat       0.70      0.64      0.67      2369
 
-    accuracy                           0.94     16785
-   macro avg       0.93      0.93      0.93     16785
-weighted avg       0.94      0.94      0.94     16785
+    accuracy                           0.81     16799
+   macro avg       0.80      0.80      0.80     16799
+weighted avg       0.81      0.81      0.81     16799
 

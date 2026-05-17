@@ -2,13 +2,13 @@ Classification Report — XGBoost
 ============================================================
               precision    recall  f1-score   support
 
-jumping_jack       0.96      0.96      0.96      3780
-     pull_up       0.96      0.96      0.96      3835
-     push_up       0.99      0.99      0.99      3472
-       situp       0.98      0.98      0.98      3335
-       squat       0.94      0.93      0.93      2363
+jumping_jack       0.81      0.81      0.81      3796
+     pull_up       0.75      0.79      0.77      3824
+     push_up       0.91      0.90      0.91      3494
+       situp       0.91      0.86      0.88      3316
+       squat       0.68      0.67      0.67      2369
 
-    accuracy                           0.97     16785
-   macro avg       0.96      0.96      0.96     16785
-weighted avg       0.97      0.97      0.97     16785
+    accuracy                           0.81     16799
+   macro avg       0.81      0.81      0.81     16799
+weighted avg       0.82      0.81      0.81     16799
 

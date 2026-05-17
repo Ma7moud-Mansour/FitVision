@@ -1,8 +1,8 @@
 Confusion Matrix — RandomForest
 ============================================================
               jumping_jack  pull_up  push_up  situp  squat
-jumping_jack          3453      181        9     12    125
-pull_up                 98     3551       24     76     86
-push_up                 15       13     3429     10      5
-situp                    4       45       17   3232     37
-squat                  150       67       37     70   2039
+jumping_jack          3053      344       83      1    315
+pull_up                411     2944      116    127    226
+push_up                  5      165     3168     54    102
+situp                    2      367       42   2896      9
+squat                  401      192      143    106   1527

@@ -93,7 +93,7 @@ class MLEvaluatorMixin:
         super().__init__()
         _load_artifacts()  # Ensure model is loaded
 
-    def extract_distance_features(self, landmarks) -> dict:
+    def extract_distance_features(self, landmarks, w=1, h=1) -> dict:
         """
         Extract the same xyz distance features used during training.
         Returns a dict matching the feature_columns order.
@@ -105,9 +105,10 @@ class MLEvaluatorMixin:
             la = landmarks[idx_a]
             lb = landmarks[idx_b]
             prefix = f"{name_a}_{name_b}"
-            features[f"x_{prefix}"] = la.x - lb.x
-            features[f"y_{prefix}"] = la.y - lb.y
-            features[f"z_{prefix}"] = la.z - lb.z
+            # Dataset used lb - la
+            features[f"x_{prefix}"] = lb.x - la.x
+            features[f"y_{prefix}"] = lb.y - la.y
+            features[f"z_{prefix}"] = lb.z - la.z
 
         # Average-based features (distance from center to midpoint of two joints)
         for name, center_idx, pa_idx, pb_idx in self._AVG_FEATURES:
@@ -117,13 +118,14 @@ class MLEvaluatorMixin:
             avg_x = (la.x + lb.x) / 2
             avg_y = (la.y + lb.y) / 2
             avg_z = (la.z + lb.z) / 2
+            # Dataset used lc - avg
             features[f"x_{name}"] = lc.x - avg_x
             features[f"y_{name}"] = lc.y - avg_y
             features[f"z_{name}"] = lc.z - avg_z
 
         return features
 
-    def predict_exercise(self, landmarks) -> tuple:
+    def predict_exercise(self, landmarks, w=1, h=1) -> tuple:
         """
         Predict exercise class from landmarks using the ML model.
 

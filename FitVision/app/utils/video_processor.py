@@ -94,7 +94,7 @@ class VideoProcessor:
                     evaluator.current_frame = processed_count
                     evaluator.current_timestamp_ms = int((processed_count / target_fps) * 1000)
                     last_analysis = evaluator.evaluate(
-                        results.pose_landmarks.landmark,
+                        results,
                         width,
                         height,
                         self.engine
